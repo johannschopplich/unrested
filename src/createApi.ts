@@ -7,7 +7,7 @@ export type ApiProxy<T extends string> = {
 };
 
 /**
- * Create a low code REST client using JS proxies
+ * Minimal, type-safe REST client using JS proxies
  */
 export default <T extends string>(
   baseUrl: string,
