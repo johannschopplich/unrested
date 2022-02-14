@@ -1,1 +1,1 @@
-export { default as createApi } from "./createApi";
+export * from "./createApi";

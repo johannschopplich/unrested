@@ -3,6 +3,8 @@
 > Minimal, type-safe REST client using JS proxies.
 
 ```ts
+import { createApi } from "uncreate";
+
 const api = createApi<"users">("https://jsonplaceholder.typicode.com");
 
 // `get` request to https://jsonplaceholder.typicode.com/users
