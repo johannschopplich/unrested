@@ -9,7 +9,7 @@ const api = createApi<"users">("https://jsonplaceholder.typicode.com");
 const allUsers = await api.users();
 
 // `get` request to https://jsonplaceholder.typicode.com/users/1
-const singeUser = await api.users<{ name: string }>(1);
+const singeUser = await api.users<UserResponse>(1);
 ```
 
 ## License

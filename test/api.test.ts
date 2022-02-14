@@ -3,12 +3,12 @@ import { createApi } from "../src/index";
 
 const JSON_PLACEHOLDER_API_URL = "https://jsonplaceholder.typicode.com";
 
-interface JSONPlaceholderUserResponse {
+interface UserResponse {
   id: number;
   name: string;
   username: string;
   email: string;
-  // and so on…
+  // etc.
 }
 
 test("create api and fetch data", async () => {
@@ -19,6 +19,6 @@ test("create api and fetch data", async () => {
   expect(allUsers).toMatchSnapshot();
 
   // `get` request to https://jsonplaceholder.typicode.com/users/1
-  const singeUser = await api.users<JSONPlaceholderUserResponse>(1);
+  const singeUser = await api.users<UserResponse>(1);
   expect(singeUser).toMatchSnapshot();
 });
