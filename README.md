@@ -12,6 +12,8 @@ const allUsers = await api.users();
 const singeUser = await api.users<UserResponse>(1);
 ```
 
+`uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood.
+
 ## Installation
 
 Run the following command to add `uncreate` to your project.
