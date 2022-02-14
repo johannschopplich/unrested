@@ -1,4 +1,4 @@
-# Uncreate
+# UnCreate
 
 > Minimal, type-safe REST client using JS proxies.
 
