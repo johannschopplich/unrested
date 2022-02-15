@@ -11,7 +11,7 @@ export type UnCreateClient<T extends string> = {
  */
 export const createApi = <T extends string>(
   baseUrl: string,
-  opts?: Omit<FetchOptions, "baseURL">
+  opts?: Omit<FetchOptions<"json">, "baseURL">
 ) => {
   return new Proxy({} as UnCreateClient<T>, {
     get(_target, key: T) {
