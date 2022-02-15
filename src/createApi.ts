@@ -10,13 +10,13 @@ export type UnCreateClient<T extends string> = {
  * Minimal, type-safe REST client using JS proxies
  */
 export const createApi = <T extends string>(
-  baseUrl: string,
-  opts?: Omit<FetchOptions<"json">, "baseURL">
+  baseURL: string,
+  opts: Omit<FetchOptions<"json">, "baseURL"> = {}
 ) => {
   return new Proxy({} as UnCreateClient<T>, {
     get(_target, key: T) {
       return (id?: number | string) =>
-        $fetch(`${baseUrl}/${key}${id ? `/${id}` : ""}`, opts);
+        $fetch(`${key}${id ? `/${id}` : ""}`, { baseURL, ...opts });
     },
   });
 };
