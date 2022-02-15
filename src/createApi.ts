@@ -3,7 +3,7 @@ import type { FetchOptions } from "ohmyfetch";
 
 export type UnCreateClient<T extends string> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [K in T]: <R extends Record<string, any>>(id?: number | string) => Promise<R>;
+  [K in T]: <R extends any>(id?: number | string) => Promise<R>;
 };
 
 /**
