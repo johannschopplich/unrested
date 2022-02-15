@@ -1,7 +1,8 @@
 import { expect, test } from "vitest";
 import { createApi } from "../src/index";
+import { FetchError } from "ohmyfetch";
 
-const JSON_PLACEHOLDER_API_URL = "https://jsonplaceholder.typicode.com";
+const API_BASE_URL = "https://jsonplaceholder.typicode.com";
 
 interface UserResponse {
   id: number;
@@ -12,7 +13,7 @@ interface UserResponse {
 }
 
 test("create api and fetch data", async () => {
-  const api = createApi<"users">(JSON_PLACEHOLDER_API_URL);
+  const api = createApi<"users">(API_BASE_URL);
 
   // `get` request to https://jsonplaceholder.typicode.com/users
   const allUsers = await api.users();
@@ -21,4 +22,20 @@ test("create api and fetch data", async () => {
   // `get` request to https://jsonplaceholder.typicode.com/users/1
   const singeUser = await api.users<UserResponse>(1);
   expect(singeUser).toMatchSnapshot();
+});
+
+test("invalid base url", async () => {
+  const api = createApi("");
+
+  await api.foo().catch((e) => {
+    expect((e as FetchError).message).toMatch(/Invalid URL/);
+  });
+});
+
+test("invalid api endpoint", async () => {
+  const api = createApi(API_BASE_URL);
+
+  await api.foo().catch((e) => {
+    expect((e as FetchError).message).toMatch(/404 Not Found/);
+  });
 });
