@@ -11,10 +11,10 @@ export type UnCreateClient<T extends string> = {
  */
 export const createApi = <T extends string>(
   baseUrl: string,
-  opts?: FetchOptions<"json">
+  opts?: Omit<FetchOptions, "baseURL">
 ) => {
   return new Proxy({} as UnCreateClient<T>, {
-    get(target, key: T) {
+    get(_target, key: T) {
       return (id?: number | string) =>
         $fetch(`${baseUrl}/${key}${id ? `/${id}` : ""}`, opts);
     },
