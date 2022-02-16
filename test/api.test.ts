@@ -4,7 +4,12 @@ import { FetchError } from "ohmyfetch";
 
 const API_BASE_URL = "https://jsonplaceholder.typicode.com";
 
-interface UserResponse {
+enum ApiEndpoints {
+  Users = "users",
+  Posts = "posts",
+}
+
+interface ApiUserResponse {
   id: number;
   name: string;
   username: string;
@@ -13,14 +18,14 @@ interface UserResponse {
 }
 
 test("create api and fetch data", async () => {
-  const api = createApi<"users">(API_BASE_URL);
+  const api = createApi<ApiEndpoints>(API_BASE_URL);
 
   // `get` request to https://jsonplaceholder.typicode.com/users
   const allUsers = await api.users();
   expect(allUsers).toMatchSnapshot();
 
   // `get` request to https://jsonplaceholder.typicode.com/users/1
-  const singeUser = await api.users<UserResponse>(1);
+  const singeUser = await api.users<ApiUserResponse>(1);
   expect(singeUser).toMatchSnapshot();
 });
 

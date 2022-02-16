@@ -5,13 +5,18 @@
 ```ts
 import { createApi } from "uncreate";
 
-const api = createApi<"users">("https://jsonplaceholder.typicode.com");
+enum ApiEndpoints {
+  Users = "users",
+  Posts = "posts",
+}
 
-// `get` request to https://jsonplaceholder.typicode.com/users
+const api = createApi<ApiEndpoints>("https://jsonplaceholder.typicode.com");
+
+// `GET` request to https://jsonplaceholder.typicode.com/users
 const allUsers = await api.users();
 
-// `get` request to https://jsonplaceholder.typicode.com/users/1
-const singeUser = await api.users<UserResponse>(1);
+// Typed `GET` request to https://jsonplaceholder.typicode.com/users/1
+const singeUser = await api.users<ApiUserResponse>(1);
 ```
 
 `uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood. Thus, every option available for ohmyfetch is usable with uncreate as well!
