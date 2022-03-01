@@ -2,7 +2,8 @@ import { $fetch } from "ohmyfetch";
 import type { FetchOptions } from "ohmyfetch";
 
 export type UnCreateClient<T extends string> = {
-  [K in T]: <R>(id?: number | string) => Promise<R>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [K in T]: <R = any>(id?: number | string) => Promise<R>;
 };
 
 /**
