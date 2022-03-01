@@ -26,7 +26,7 @@ const singeUser = await api.users<ApiUserResponse>(1);
 Run the following command to add `uncreate` to your project.
 
 ```bash
-pnpm install uncreate -D # or npm or yarn
+pnpm install uncreate # or npm or yarn
 ```
 
 ## Configuration
