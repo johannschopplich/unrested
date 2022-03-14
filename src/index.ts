@@ -1,4 +1,5 @@
 import { $fetch } from "ohmyfetch";
+import { resolveURL, withQuery } from "ufo";
 import type { FetchOptions } from "ohmyfetch";
 import type { ApiBuilder, ApiFetchHandler, ResponseType } from "./types";
 
@@ -21,17 +22,17 @@ export function createApi<T extends ResponseType = "json">(
         const method = key.toUpperCase();
 
         if (!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
-          return createApi(`${url}/${key}`, defaults);
+          return createApi(resolveURL(url, key), defaults);
         }
 
         const handler: ApiFetchHandler = (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          data?: any,
+          data?: Record<string, any>,
           opts: FetchOptions = {}
         ) => {
           switch (method) {
             case "GET":
-              if (data) url = `${url}?${new URLSearchParams(data)}`;
+              if (data) url = withQuery(url, data);
               break;
             case "POST":
             case "PUT":
@@ -45,7 +46,9 @@ export function createApi<T extends ResponseType = "json">(
         return handler;
       },
       apply(_target, _thisArg, args: (string | number)[] = []) {
-        return p(args.length ? `${url}/${args.join("/")}` : url);
+        return p(
+          args.length ? resolveURL(url, ...args.map((i) => `${i}`)) : url
+        );
       },
     });
 

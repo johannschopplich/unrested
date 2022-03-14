@@ -10,7 +10,7 @@ interface ResponseMap {
 export type ResponseType = keyof ResponseMap | "json";
 
 export type ApiFetchHandler = <R = any>(
-  data?: any,
+  data?: Record<string, any>,
   opts?: FetchOptions
 ) => Promise<R>;
 
