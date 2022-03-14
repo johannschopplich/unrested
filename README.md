@@ -26,7 +26,7 @@ const allUsers = await api.users.get();
 // Typed `GET` request to https://jsonplaceholder.typicode.com/users/1
 const userId = 1;
 // … using the chain syntax:
-const singeUser = await api.users(1).get<ApiUserResponse>();
+const singeUser = await api.users(userId).get<ApiUserResponse>();
 // … or the bracket syntax:
 const singeUser = await api.users[`${userId}`].get<ApiUserResponse>();
 ```
