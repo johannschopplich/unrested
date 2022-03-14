@@ -1,59 +1,53 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { $fetch } from "ohmyfetch";
 import type { FetchOptions } from "ohmyfetch";
-import type { FetchMethodHandler, UnCreateClient } from "./types";
+import type { ApiBuilder, FetchMethodHandler, ResponseType } from "./types";
 
-export type { UnCreateClient };
-
-interface CallableTarget {
-  (...args: any[]): any;
-  url: string;
-}
+export type { ApiBuilder };
 
 /**
  * Minimal, type-safe REST client using JS proxies
  */
-export function createApi(
+export function createApi<T extends ResponseType = "json">(
   url: string,
-  opts: FetchOptions<"json"> = {},
-  scope: string[] = []
-): UnCreateClient {
-  // Callable solely required to use `apply` on it
+  defaults: FetchOptions<T> = {}
+): ApiBuilder {
+  // Callable internal target required to use `apply` on it
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const callable: CallableTarget = () => {};
-  callable.url = url;
+  const internalTarget = (() => {}) as unknown as ApiBuilder;
 
-  return new Proxy(callable, {
-    get({ url }, key: string) {
-      const method = key.toUpperCase();
-      const path = [...scope, key];
+  const p = (url: string): ApiBuilder =>
+    new Proxy(internalTarget, {
+      get(_target, key: string) {
+        const method = key.toUpperCase();
 
-      if (["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
-        const handler: FetchMethodHandler = (
-          data?: any,
-          methodOpts: FetchOptions = {}
-        ) => {
-          switch (methodOpts.method) {
-            case "GET":
-              if (data) url = `${url}?${new URLSearchParams(data)}`;
-              break;
-            case "POST":
-            case "PUT":
-            case "PATCH":
-              methodOpts.body = JSON.stringify(data);
-          }
+        if (["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
+          const handler: FetchMethodHandler = (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data?: any,
+            opts: FetchOptions = {}
+          ) => {
+            switch (opts.method) {
+              case "GET":
+                if (data) url = `${url}?${new URLSearchParams(data)}`;
+                break;
+              case "POST":
+              case "PUT":
+              case "PATCH":
+                opts.body = JSON.stringify(data);
+            }
 
-          return $fetch(url, { method, ...opts, ...methodOpts });
-        };
+            return $fetch(url, { method, ...defaults, ...opts });
+          };
 
-        return handler;
-      }
+          return handler;
+        }
 
-      return createApi(`${url}/${key}`, opts, path);
-    },
-    apply({ url }, _thisArg, [arg] = []) {
-      const path = url.split("/");
-      return createApi(arg ? `${url}/${arg}` : url, opts, path);
-    },
-  }) as unknown as UnCreateClient;
+        return createApi(`${url}/${key}`, defaults);
+      },
+      apply(_target, _thisArg, args: (string | number)[] = []) {
+        return p(args.length ? `${url}/${args.join("/")}` : url);
+      },
+    });
+
+  return p(url);
 }

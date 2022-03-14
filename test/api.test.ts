@@ -18,23 +18,25 @@ test("create api and fetch data", async () => {
   // `get` request to https://jsonplaceholder.typicode.com/users
   const allUsers = await api.users.get();
   expect(allUsers).toMatchSnapshot();
+});
 
+test("bracket syntax for path segment", async () => {
   // `get` request to https://jsonplaceholder.typicode.com/users/1
+  const api = createApi(API_BASE_URL);
   const singeUser = await api.users["1"].get<ApiUserResponse>();
   expect(singeUser).toMatchSnapshot();
 });
 
-test("bracket syntax for path segment", async () => {
+test("chain syntax for path segment", async () => {
+  // `get` request to https://jsonplaceholder.typicode.com/users/1
   const api = createApi(API_BASE_URL);
-  const userId = 1;
-  const singeUser = await api.users[`${userId}`].get<ApiUserResponse>();
+  const singeUser = await api.users(1).get<ApiUserResponse>();
   expect(singeUser).toMatchSnapshot();
 });
 
-test("chain syntax for path segment", async () => {
+test("multiple path segments in one call", async () => {
   const api = createApi(API_BASE_URL);
-  const userId = 1;
-  const singeUser = await api.users(`${userId}`).get<ApiUserResponse>();
+  const singeUser = await api("users", "1").get<ApiUserResponse>();
   expect(singeUser).toMatchSnapshot();
 });
 
