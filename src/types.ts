@@ -8,10 +8,6 @@ interface ResponseMap {
 }
 
 export type ResponseType = keyof ResponseMap | "json";
-export type MappedType<
-  R extends ResponseType,
-  JsonType = any
-> = R extends keyof ResponseMap ? ResponseMap[R] : JsonType;
 
 export type FetchMethodHandler = <R = any>(
   data?: any,
