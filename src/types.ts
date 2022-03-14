@@ -9,18 +9,18 @@ interface ResponseMap {
 
 export type ResponseType = keyof ResponseMap | "json";
 
-export type FetchMethodHandler = <R = any>(
+export type ApiFetchHandler = <R = any>(
   data?: any,
-  methodOpts?: FetchOptions
+  opts?: FetchOptions
 ) => Promise<R>;
 
 export type ApiBuilder = {
   [K: string]: ApiBuilder;
   (...segmentsOrIds: (string | number)[]): ApiBuilder;
 } & {
-  get: FetchMethodHandler;
-  post: FetchMethodHandler;
-  put: FetchMethodHandler;
-  delete: FetchMethodHandler;
-  patch: FetchMethodHandler;
+  get: ApiFetchHandler;
+  post: ApiFetchHandler;
+  put: ApiFetchHandler;
+  delete: ApiFetchHandler;
+  patch: ApiFetchHandler;
 };

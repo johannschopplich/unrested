@@ -1,6 +1,6 @@
 import { $fetch } from "ohmyfetch";
 import type { FetchOptions } from "ohmyfetch";
-import type { ApiBuilder, FetchMethodHandler, ResponseType } from "./types";
+import type { ApiBuilder, ApiFetchHandler, ResponseType } from "./types";
 
 export type { ApiBuilder };
 
@@ -13,7 +13,7 @@ export function createApi<T extends ResponseType = "json">(
 ): ApiBuilder {
   // Callable internal target required to use `apply` on it
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const internalTarget = (() => {}) as unknown as ApiBuilder;
+  const internalTarget = (() => {}) as ApiBuilder;
 
   const p = (url: string): ApiBuilder =>
     new Proxy(internalTarget, {
@@ -21,7 +21,7 @@ export function createApi<T extends ResponseType = "json">(
         const method = key.toUpperCase();
 
         if (["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
-          const handler: FetchMethodHandler = (
+          const handler: ApiFetchHandler = (
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             data?: any,
             opts: FetchOptions = {}
@@ -36,7 +36,7 @@ export function createApi<T extends ResponseType = "json">(
                 opts.body = JSON.stringify(data);
             }
 
-            return $fetch(url, { method, ...defaults, ...opts });
+            return $fetch(url, { ...defaults, ...opts, method });
           };
 
           return handler;
