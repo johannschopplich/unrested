@@ -8,8 +8,8 @@
 - 🦾 Strongly typed
 - 📚 Supports chain and bracket syntax
   - `api.nested.users(1).get()`
-  - or `api.nested.users["1"].post()`
-- 🪵 Use HTTP methods, like `.get()` or `.post()`
+  - or `api.nested.users["1"].get()`
+- 🪵 Use other HTTP methods, like `.post()`
 
 `uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood. Thus, every option available for ohmyfetch is usable with uncreate as well!
 
