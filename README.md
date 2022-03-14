@@ -7,8 +7,8 @@
 - 🌁 Lightweight, only 36 loc
 - 🦾 Strongly typed
 - 📚 Supports chain and bracket syntax
-  - `api.some.deep.users(1)`
-  - or `api.some.deep.users["1"]`
+  - `api.nested.users(1).get()`
+  - or `api.nested.users["1"].post()`
 - 🪵 Use HTTP methods, like `.get()` or `.post()`
 
 `uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood. Thus, every option available for ohmyfetch is usable with uncreate as well!
@@ -26,9 +26,9 @@ const allUsers = await api.users.get();
 // Typed `GET` request to https://jsonplaceholder.typicode.com/users/1
 const userId = 1;
 // … using the chain syntax:
-const singeUser = await api.users(userId).get<ApiUserResponse>();
+const singeUser = await api.users(userId).get<UserResponse>();
 // … or the bracket syntax:
-const singeUser = await api.users[`${userId}`].get<ApiUserResponse>();
+const singeUser = await api.users[`${userId}`].get<UserResponse>();
 ```
 
 ## Installation
