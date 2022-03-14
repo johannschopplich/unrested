@@ -4,11 +4,6 @@ import type { FetchError } from "ohmyfetch";
 
 const API_BASE_URL = "https://jsonplaceholder.typicode.com";
 
-enum ApiEndpoints {
-  Users = "users",
-  Posts = "posts",
-}
-
 interface ApiUserResponse {
   id: number;
   name: string;
@@ -18,29 +13,35 @@ interface ApiUserResponse {
 }
 
 test("create api and fetch data", async () => {
-  const api = createApi<ApiEndpoints>(API_BASE_URL);
+  const api = createApi(API_BASE_URL);
 
   // `get` request to https://jsonplaceholder.typicode.com/users
-  const allUsers = await api.users();
+  const allUsers = await api.users.get();
   expect(allUsers).toMatchSnapshot();
 
   // `get` request to https://jsonplaceholder.typicode.com/users/1
-  const singeUser = await api.users<ApiUserResponse>(1);
+  const singeUser = await api.users["1"].get<ApiUserResponse>();
   expect(singeUser).toMatchSnapshot();
 });
 
-test("invalid base url", async () => {
-  const api = createApi("");
+test("bracket syntax for path segment", async () => {
+  const api = createApi(API_BASE_URL);
+  const userId = 1;
+  const singeUser = await api.users[`${userId}`].get<ApiUserResponse>();
+  expect(singeUser).toMatchSnapshot();
+});
 
-  await api.foo().catch((e) => {
-    expect((e as FetchError).message).toMatch(/Invalid URL/);
-  });
+test("chain syntax for path segment", async () => {
+  const api = createApi(API_BASE_URL);
+  const userId = 1;
+  const singeUser = await api.users(`${userId}`).get<ApiUserResponse>();
+  expect(singeUser).toMatchSnapshot();
 });
 
 test("invalid api endpoint", async () => {
   const api = createApi(API_BASE_URL);
 
-  await api.foo().catch((e) => {
+  await api.foo.get().catch((e) => {
     expect((e as FetchError).message).toMatch(/404 Not Found/);
   });
 });
