@@ -29,7 +29,7 @@ export function createApi<T extends ResponseType = "json">(
           data?: any,
           opts: FetchOptions = {}
         ) => {
-          switch (opts.method) {
+          switch (method) {
             case "GET":
               if (data) url = `${url}?${new URLSearchParams(data)}`;
               break;
