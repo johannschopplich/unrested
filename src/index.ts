@@ -20,29 +20,29 @@ export function createApi<T extends ResponseType = "json">(
       get(_target, key: string) {
         const method = key.toUpperCase();
 
-        if (["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
-          const handler: ApiFetchHandler = (
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data?: any,
-            opts: FetchOptions = {}
-          ) => {
-            switch (opts.method) {
-              case "GET":
-                if (data) url = `${url}?${new URLSearchParams(data)}`;
-                break;
-              case "POST":
-              case "PUT":
-              case "PATCH":
-                opts.body = JSON.stringify(data);
-            }
-
-            return $fetch(url, { ...defaults, ...opts, method });
-          };
-
-          return handler;
+        if (!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
+          return createApi(`${url}/${key}`, defaults);
         }
 
-        return createApi(`${url}/${key}`, defaults);
+        const handler: ApiFetchHandler = (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          data?: any,
+          opts: FetchOptions = {}
+        ) => {
+          switch (opts.method) {
+            case "GET":
+              if (data) url = `${url}?${new URLSearchParams(data)}`;
+              break;
+            case "POST":
+            case "PUT":
+            case "PATCH":
+              opts.body = JSON.stringify(data);
+          }
+
+          return $fetch(url, { ...defaults, ...opts, method });
+        };
+
+        return handler;
       },
       apply(_target, _thisArg, args: (string | number)[] = []) {
         return p(args.length ? `${url}/${args.join("/")}` : url);
