@@ -6,7 +6,10 @@
 
 - 🌁 Lightweight, only 36 loc
 - 🦾 Strongly typed
-- 🪵 Use HTTP methods like `GET`
+- 📚 Supports chain and bracket syntax
+  - `api.some.deep.users(1)`
+  - or `api.some.deep.users["1"]`
+- 🪵 Use HTTP methods, like `.get()` or `.post()`
 
 `uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood. Thus, every option available for ohmyfetch is usable with uncreate as well!
 
