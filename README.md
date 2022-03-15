@@ -31,7 +31,7 @@ const user = await api.users(userId).get<UserResponse>();
 const user = await api.users[`${userId}`].get<UserResponse>();
 
 // `POST` request to /users
-const response = await api.users.post({ id: 1, email: "foo@bar.com" });
+const response = await api.users.post({ email: "foo@bar.com" });
 ```
 
 ## Installation
