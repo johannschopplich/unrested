@@ -37,7 +37,7 @@ export function createApi<T extends ResponseType = "json">(
             case "POST":
             case "PUT":
             case "PATCH":
-              opts.body = JSON.stringify(data);
+              opts.body = data;
           }
 
           return $fetch(url, { ...defaults, ...opts, method });
