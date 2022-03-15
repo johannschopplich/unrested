@@ -31,7 +31,6 @@ export function createApi<R extends ResponseType = "json">(
           T = any,
           R extends ResponseType = "json"
         >(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           data?: RequestInit["body"] | Record<string, any>,
           opts: FetchOptions<R> = {}
         ) => {
