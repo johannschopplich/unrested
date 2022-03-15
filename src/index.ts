@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { $fetch } from "ohmyfetch";
 import { resolveURL, withQuery } from "ufo";
 import type { FetchOptions } from "ohmyfetch";
@@ -8,9 +9,9 @@ export type { ApiBuilder };
 /**
  * Minimal, type-safe REST client using JS proxies
  */
-export function createApi<T extends ResponseType = "json">(
+export function createApi<R extends ResponseType = "json">(
   url: string,
-  defaults: FetchOptions<T> = {}
+  defaults: FetchOptions<R> = {}
 ): ApiBuilder {
   // Callable internal target required to use `apply` on it
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -25,10 +26,13 @@ export function createApi<T extends ResponseType = "json">(
           return p(resolveURL(url, key));
         }
 
-        const handler: ApiFetchHandler = (
+        const handler: ApiFetchHandler = <
+          T = any,
+          R extends ResponseType = "json"
+        >(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           data?: Record<string, any>,
-          opts: FetchOptions = {}
+          opts: FetchOptions<R> = {}
         ) => {
           switch (method) {
             case "GET":
@@ -40,7 +44,11 @@ export function createApi<T extends ResponseType = "json">(
               opts.body = data;
           }
 
-          return $fetch(url, { ...defaults, ...opts, method });
+          return $fetch<T, R>(url, {
+            ...(defaults as unknown as FetchOptions<R>),
+            ...opts,
+            method,
+          });
         };
 
         return handler;

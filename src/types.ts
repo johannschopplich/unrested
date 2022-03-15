@@ -9,10 +9,15 @@ interface ResponseMap {
 
 export type ResponseType = keyof ResponseMap | "json";
 
-export type ApiFetchHandler = <R = any>(
+export type MappedType<
+  R extends ResponseType,
+  JsonType = any
+> = R extends keyof ResponseMap ? ResponseMap[R] : JsonType;
+
+export type ApiFetchHandler = <T = any, R extends ResponseType = "json">(
   data?: Record<string, any>,
-  opts?: FetchOptions
-) => Promise<R>;
+  opts?: FetchOptions<R>
+) => Promise<MappedType<R, T>>;
 
 export type ApiBuilder = {
   [K: string]: ApiBuilder;
