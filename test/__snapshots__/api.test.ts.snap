@@ -287,7 +287,7 @@ exports[`create api and fetch data 1`] = `
 ]
 `;
 
-exports[`multiple path segments in one call 1`] = `
+exports[`multiple path segments 1`] = `
 {
   "address": {
     "city": "Gwenborough",

@@ -34,7 +34,7 @@ test("chain syntax for path segment", async () => {
   expect(singeUser).toMatchSnapshot();
 });
 
-test("multiple path segments in one call", async () => {
+test("multiple path segments", async () => {
   const api = createApi(API_BASE_URL);
   const singeUser = await api("users", "1").get<ApiUserResponse>();
   expect(singeUser).toMatchSnapshot();

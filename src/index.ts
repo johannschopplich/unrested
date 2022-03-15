@@ -46,9 +46,7 @@ export function createApi<T extends ResponseType = "json">(
         return handler;
       },
       apply(_target, _thisArg, args: (string | number)[] = []) {
-        return p(
-          args.length ? resolveURL(url, ...args.map((i) => `${i}`)) : url
-        );
+        return p(resolveURL(url, ...args.map((i) => `${i}`)));
       },
     });
 
