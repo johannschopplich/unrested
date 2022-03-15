@@ -1,6 +1,6 @@
 {
   "name": "uncreate",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Minimal, type-safe REST client using JS proxies",
   "keywords": [
     "ohmyfetch",
