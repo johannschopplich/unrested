@@ -22,7 +22,7 @@ export function createApi<T extends ResponseType = "json">(
         const method = key.toUpperCase();
 
         if (!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
-          return createApi(resolveURL(url, key), defaults);
+          return p(resolveURL(url, key));
         }
 
         const handler: ApiFetchHandler = (
