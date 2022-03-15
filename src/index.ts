@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { $fetch } from "ohmyfetch";
 import { resolveURL, withQuery } from "ufo";
+import type { QueryObject } from "ufo";
 import type { FetchOptions } from "ohmyfetch";
 import type { ApiBuilder, ApiFetchHandler, ResponseType } from "./types";
 
@@ -31,12 +32,12 @@ export function createApi<R extends ResponseType = "json">(
           R extends ResponseType = "json"
         >(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          data?: Record<string, any>,
+          data?: RequestInit["body"] | Record<string, any>,
           opts: FetchOptions<R> = {}
         ) => {
           switch (method) {
             case "GET":
-              if (data) url = withQuery(url, data);
+              if (data) url = withQuery(url, data as QueryObject);
               break;
             case "POST":
             case "PUT":

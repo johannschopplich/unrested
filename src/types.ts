@@ -15,7 +15,7 @@ export type MappedType<
 > = R extends keyof ResponseMap ? ResponseMap[R] : JsonType;
 
 export type ApiFetchHandler = <T = any, R extends ResponseType = "json">(
-  data?: Record<string, any>,
+  data?: RequestInit["body"] | Record<string, any>,
   opts?: FetchOptions<R>
 ) => Promise<MappedType<R, T>>;
 
