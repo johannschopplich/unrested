@@ -23,12 +23,15 @@ const api = createApi("https://jsonplaceholder.typicode.com");
 // `GET` request to https://jsonplaceholder.typicode.com/users
 const allUsers = await api.users.get();
 
-// Typed `GET` request to https://jsonplaceholder.typicode.com/users/1
+// Typed `GET` request to /users/1
 const userId = 1;
 // … using the chain syntax:
-const singeUser = await api.users(userId).get<UserResponse>();
+const user = await api.users(userId).get<UserResponse>();
 // … or the bracket syntax:
-const singeUser = await api.users[`${userId}`].get<UserResponse>();
+const user = await api.users[`${userId}`].get<UserResponse>();
+
+// `POST` request to /users
+const response = await api.users.post({ id: 1, email: "foo@bar.com" });
 ```
 
 ## Installation
