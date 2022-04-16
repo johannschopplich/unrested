@@ -1,74 +1,105 @@
-import { expect, test, beforeEach } from "vitest";
-import { createApi } from "../src/index";
-import type { FetchError } from "ohmyfetch";
-import type { ApiBuilder } from "../src/index";
+import { describe, beforeEach, afterEach, it, expect } from "vitest";
+import { type IncomingMessage, createApp, useBody } from "h3";
+import { type Listener, listen } from "listhen";
+import { getQuery } from "ufo";
+import { type ClientBuilder, createClient } from "../src";
 
-interface UserResponse {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  // etc.
+// Test TypeScript support
+interface TypedGetResponse {
+  foo: string;
 }
 
-const API_BASE_URL = "https://jsonplaceholder.typicode.com";
-let api: ApiBuilder;
+describe("uncreate", () => {
+  let listener: Listener;
+  let client: ClientBuilder;
 
-beforeEach(() => {
-  api = createApi(API_BASE_URL);
-});
+  beforeEach(async () => {
+    const app = createApp()
+      .use("/foo/1", () => ({ foo: "1" }))
+      .use("/foo", () => ({ foo: "bar" }))
+      .use("/bar", async (req: IncomingMessage) => ({
+        url: req.url,
+        body: await useBody(req),
+        headers: req.headers,
+        method: req.method,
+      }))
+      .use("/params", (req: IncomingMessage) => getQuery(req.url || ""));
 
-test("create api", async () => {
-  expect(api).not.toBeNull();
-});
+    listener = await listen(app);
+    client = createClient(listener.url, {
+      headers: {
+        "X-Foo": "bar",
+      },
+    });
+  });
 
-test("GET request", async () => {
-  const users = await api.users.get();
-  expect(users).toMatchSnapshot();
-});
+  afterEach(async () => {
+    await listener.close();
+  });
 
-test("POST request", async () => {
-  const response = await api.users.post({ foo: "bar" });
-  expect(response).toMatchSnapshot();
-});
+  it("GET request", async () => {
+    const response = await client.foo.get();
+    expect(response).to.deep.equal({ foo: "bar" });
+  });
 
-test("PUT request", async () => {
-  const response = await api.users(1).put({ foo: "bar" });
-  expect(response).toMatchSnapshot();
-});
+  it("POST request", async () => {
+    const response = await client.bar.post({ foo: "bar" });
+    expect(response.body).to.deep.equal({ foo: "bar" });
+    expect(response.method).to.equal("POST");
+  });
 
-test("DELETE request", async () => {
-  const response = await api.users(1).delete();
-  expect(response).toMatchSnapshot();
-});
+  it("PUT request", async () => {
+    const response = await client.bar.put({ foo: "bar" });
+    expect(response.body).to.deep.equal({ foo: "bar" });
+    expect(response.method).to.equal("PUT");
+  });
 
-test("PATCH request", async () => {
-  const response = await api.users(1).patch({ foo: "bar" });
-  expect(response).toMatchSnapshot();
-});
+  it("DELETE request", async () => {
+    const response = await client.bar.delete();
+    expect(response.method).to.equal("DELETE");
+  });
 
-test("query parameter", async () => {
-  const user = await api.users.get({ userId: 1 });
-  expect(user).toMatchSnapshot();
-});
+  it("PATCH request", async () => {
+    const response = await client.bar.patch({ foo: "bar" });
+    expect(response.body).to.deep.equal({ foo: "bar" });
+    expect(response.method).to.equal("PATCH");
+  });
 
-test("bracket syntax for path segment", async () => {
-  const user = await api.users["1"].get<UserResponse>();
-  expect(user).toMatchSnapshot();
-});
+  it("query parameter", async () => {
+    const response = await client.params.get({ test: "true" });
+    expect(response).to.deep.equal({ test: "true" });
+  });
 
-test("chain syntax for path segment", async () => {
-  const user = await api.users(1).get<UserResponse>();
-  expect(user).toMatchSnapshot();
-});
+  it("default options", async () => {
+    const { headers } = await client.bar.post();
+    expect(headers).to.include({ "x-foo": "bar" });
+  });
 
-test("multiple path segments", async () => {
-  const user = await api("users", "1").get<UserResponse>();
-  expect(user).toMatchSnapshot();
-});
+  it("override default options", async () => {
+    const { headers } = await client.bar.post(
+      {},
+      { headers: { "X-Foo": "baz" } }
+    );
+    expect(headers).to.include({ "x-foo": "baz" });
+  });
 
-test("invalid api endpoint", async () => {
-  await api.foo.get().catch((e) => {
-    expect((e as FetchError).message).toMatch(/404 Not Found/);
+  it("bracket syntax for path segment", async () => {
+    const response = await client.foo["1"].get<TypedGetResponse>();
+    expect(response).to.deep.equal({ foo: "1" });
+  });
+
+  it("chain syntax for path segment", async () => {
+    const response = await client.foo(1).get<TypedGetResponse>();
+    expect(response).to.deep.equal({ foo: "1" });
+  });
+
+  it("multiple path segments", async () => {
+    const response = await client("foo", "1").get<TypedGetResponse>();
+    expect(response).to.deep.equal({ foo: "1" });
+  });
+
+  it("invalid api endpoint", async () => {
+    const err = await client.baz.get<TypedGetResponse>().catch((err) => err);
+    expect(err.message).to.contain("404 Not Found");
   });
 });
