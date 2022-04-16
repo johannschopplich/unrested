@@ -13,25 +13,69 @@
 
 `uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood. Thus, every option available for ohmyfetch is usable with uncreate as well!
 
-## Example
+## Usage
 
 ```ts
-import { createApi } from "uncreate";
+import { createClient } from "uncreate";
 
-const api = createApi("https://jsonplaceholder.typicode.com");
+const api = createClient("<baseURL>", {
+  // Set optional defaults for `$fetch`
+});
+```
 
-// `GET` request to https://jsonplaceholder.typicode.com/users
-const allUsers = await api.users.get();
+### Path Segment Chaining
 
-// Typed `GET` request to /users/1
+Chain single path segments or path ids by a dot. You can even type the response of your request!
+
+```ts
+// GET request to <baseURL>/users
+const users = await api.users.get<UserResponse>();
+
+// For GET request you can add search params
+// <baseURL>/users?search=john
+const users = await api.users.get<UserResponse>({ search: "john" });
+```
+
+To include dynamic API path segments, you have two options:
+
+```ts
+// Typed GET request to <baseURL>/users/1
 const userId = 1;
 // … using the chain syntax:
 const user = await api.users(userId).get<UserResponse>();
 // … or the bracket syntax:
 const user = await api.users[`${userId}`].get<UserResponse>();
+```
 
-// `POST` request to /users
-const response = await api.users.post({ email: "foo@bar.com" });
+### HTTP Request Methods
+
+Add the appropriate method to the end of your API call. The following methods are supported:
+
+- `get()`
+- `post()`
+- `put()`
+- `delete()`
+- `patch()`
+
+### Payload Requests
+
+For HTTP request methods supporting a payload, add it to the method call:
+
+```ts
+// POST request to <baseURL>/users
+const response = await api.users.post({ name: "foo" });
+```
+
+### Overwrite Default Options
+
+You can add/overwrite `$fetch` options on a method-level as well:
+
+```ts
+const response = await api.users.get({
+  headers: {
+    "Cache-Control": "no-cache",
+  },
+});
 ```
 
 ## Installation
@@ -45,9 +89,9 @@ pnpm install uncreate # or npm or yarn
 ## Configuration
 
 ```ts
-import { createApi } from "uncreate";
+import { createClient } from "uncreate";
 
-const api = createApi("<baseUrl>", {
+const api = createClient("<baseUrl>", {
   // Complete list of options: https://github.com/unjs/ohmyfetch
   async onRequestError({ request, options, error }) {
     console.log("[fetch request error]", request, error);
