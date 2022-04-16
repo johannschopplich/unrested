@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, it, expect } from "vitest";
-import { type IncomingMessage, createApp, useBody } from "h3";
+import { createApp, useBody } from "h3";
 import { type Listener, listen } from "listhen";
 import { getQuery } from "ufo";
 import { type ClientBuilder, createClient } from "../src";
@@ -17,13 +17,13 @@ describe("uncreate", () => {
     const app = createApp()
       .use("/foo/1", () => ({ foo: "1" }))
       .use("/foo", () => ({ foo: "bar" }))
-      .use("/bar", async (req: IncomingMessage) => ({
+      .use("/bar", async (req: any) => ({
         url: req.url,
         body: await useBody(req),
         headers: req.headers,
         method: req.method,
       }))
-      .use("/params", (req: IncomingMessage) => getQuery(req.url || ""));
+      .use("/params", (req: any) => getQuery(req.url || ""));
 
     listener = await listen(app);
     client = createClient(listener.url, {
