@@ -13,14 +13,20 @@
 
 `uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood. Thus, every option available for ohmyfetch is usable with uncreate as well!
 
+## Installation
+
+Run the following command to add `uncreate` to your project.
+
+```bash
+pnpm install uncreate # or npm or yarn
+```
+
 ## Usage
 
 ```ts
 import { createClient } from "uncreate";
 
-const api = createClient("<baseURL>", {
-  // Set optional defaults for `$fetch`
-});
+const api = createClient("<baseURL>");
 ```
 
 ### Path Segment Chaining
@@ -66,27 +72,7 @@ For HTTP request methods supporting a payload, add it to the method call:
 const response = await api.users.post({ name: "foo" });
 ```
 
-### Overwrite Default Options
-
-You can add/overwrite `$fetch` options on a method-level as well:
-
-```ts
-const response = await api.users.get({
-  headers: {
-    "Cache-Control": "no-cache",
-  },
-});
-```
-
-## Installation
-
-Run the following command to add `uncreate` to your project.
-
-```bash
-pnpm install uncreate # or npm or yarn
-```
-
-## Configuration
+### Default Options For `$fetch`
 
 ```ts
 import { createClient } from "uncreate";
@@ -98,6 +84,18 @@ const api = createClient("<baseUrl>", {
   },
   async onResponseError({ request, options, error }) {
     console.log("[fetch response error]", request, error);
+  },
+});
+```
+
+### Override Default Options
+
+You can add/overwrite `$fetch` options on a method-level:
+
+```ts
+const response = await api.users.get({
+  headers: {
+    "Cache-Control": "no-cache",
   },
 });
 ```
