@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { $fetch } from "ohmyfetch";
+import { defu } from "defu";
 import { resolveURL, withQuery } from "ufo";
 import type { QueryObject } from "ufo";
 import type { FetchOptions } from "ohmyfetch";
-import type { ApiBuilder, ApiFetchHandler, ResponseType } from "./types";
+import type { ClientBuilder, ClientMethodHandler, ResponseType } from "./types";
 
-export type { ApiBuilder };
+export type { ClientBuilder };
 
 /**
  * Minimal, type-safe REST client using JS proxies
  */
-export function createApi<R extends ResponseType = "json">(
+export function createClient<R extends ResponseType = "json">(
   url: string,
-  defaults: FetchOptions<R> = {}
-): ApiBuilder {
+  defaults: Omit<FetchOptions<R>, "method"> = {}
+): ClientBuilder {
   // Callable internal target required to use `apply` on it
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const internalTarget = (() => {}) as ApiBuilder;
+  const internalTarget = (() => {}) as ClientBuilder;
 
-  const p = (url: string): ApiBuilder =>
+  const p = (url: string): ClientBuilder =>
     new Proxy(internalTarget, {
       get(_target, key: string) {
         const method = key.toUpperCase();
@@ -27,7 +28,7 @@ export function createApi<R extends ResponseType = "json">(
           return p(resolveURL(url, key));
         }
 
-        const handler: ApiFetchHandler = <
+        const handler: ClientMethodHandler = <
           T = any,
           R extends ResponseType = "json"
         >(
@@ -36,7 +37,9 @@ export function createApi<R extends ResponseType = "json">(
         ) => {
           switch (method) {
             case "GET":
-              if (data) url = withQuery(url, data as QueryObject);
+              if (data) {
+                url = withQuery(url, data as QueryObject);
+              }
               break;
             case "POST":
             case "PUT":
@@ -44,11 +47,9 @@ export function createApi<R extends ResponseType = "json">(
               opts.body = data;
           }
 
-          return $fetch<T, R>(url, {
-            ...(defaults as unknown as FetchOptions<R>),
-            ...opts,
-            method,
-          });
+          opts.method = method;
+
+          return $fetch<T, R>(url, defu(opts, defaults) as FetchOptions<R>);
         };
 
         return handler;
