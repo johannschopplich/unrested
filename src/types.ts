@@ -14,18 +14,18 @@ export type MappedType<
   JsonType = any
 > = R extends keyof ResponseMap ? ResponseMap[R] : JsonType;
 
-export type ApiFetchHandler = <T = any, R extends ResponseType = "json">(
+export type ClientMethodHandler = <T = any, R extends ResponseType = "json">(
   data?: RequestInit["body"] | Record<string, any>,
-  opts?: FetchOptions<R>
+  opts?: Omit<FetchOptions<R>, "baseURL" | "method">
 ) => Promise<MappedType<R, T>>;
 
-export type ApiBuilder = {
-  [K: string]: ApiBuilder;
-  (...segmentsOrIds: (string | number)[]): ApiBuilder;
+export type ClientBuilder = {
+  [key: string]: ClientBuilder;
+  (...segmentsOrIds: (string | number)[]): ClientBuilder;
 } & {
-  get: ApiFetchHandler;
-  post: ApiFetchHandler;
-  put: ApiFetchHandler;
-  delete: ApiFetchHandler;
-  patch: ApiFetchHandler;
+  get: ClientMethodHandler;
+  post: ClientMethodHandler;
+  put: ClientMethodHandler;
+  delete: ClientMethodHandler;
+  patch: ClientMethodHandler;
 };
