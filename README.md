@@ -26,6 +26,7 @@ pnpm install uncreate # or npm or yarn
 ```ts
 import { createClient } from "uncreate";
 
+// The base URL is optional and will fall back to `/`
 const api = createClient("<baseURL>");
 ```
 
