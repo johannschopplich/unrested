@@ -8,6 +8,13 @@ import type { ClientBuilder, ClientMethodHandler, ResponseType } from "./types";
 
 export type { ClientBuilder };
 
+const payloadMethods: ReadonlyArray<string> = [
+  "POST",
+  "PUT",
+  "DELETE",
+  "PATCH",
+];
+
 /**
  * Minimal, type-safe REST client using JS proxies
  */
@@ -19,12 +26,12 @@ export function createClient<R extends ResponseType = "json">(
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const internalTarget = (() => {}) as ClientBuilder;
 
-  const p = (url: string): ClientBuilder =>
-    new Proxy(internalTarget, {
+  function p(url: string): ClientBuilder {
+    return new Proxy(internalTarget, {
       get(_target, key: string) {
         const method = key.toUpperCase();
 
-        if (!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) {
+        if (!["GET", ...payloadMethods].includes(method)) {
           return p(resolveURL(url, key));
         }
 
@@ -35,16 +42,10 @@ export function createClient<R extends ResponseType = "json">(
           data?: RequestInit["body"] | Record<string, any>,
           opts: FetchOptions<R> = {}
         ) => {
-          switch (method) {
-            case "GET":
-              if (data) {
-                url = withQuery(url, data as QueryObject);
-              }
-              break;
-            case "POST":
-            case "PUT":
-            case "PATCH":
-              opts.body = data;
+          if (method === "GET" && data) {
+            url = withQuery(url, data as QueryObject);
+          } else if (payloadMethods.includes(method)) {
+            opts.body = data;
           }
 
           opts.method = method;
@@ -58,6 +59,7 @@ export function createClient<R extends ResponseType = "json">(
         return p(resolveURL(url, ...args.map((i) => `${i}`)));
       },
     });
+  }
 
   return p(url);
 }
