@@ -19,8 +19,8 @@ const payloadMethods: ReadonlyArray<string> = [
  * Minimal, type-safe REST client using JS proxies
  */
 export function createClient<R extends ResponseType = "json">(
-  url: string,
-  defaults: Omit<FetchOptions<R>, "method"> = {}
+  baseUrl = "/",
+  defaultOptions: Omit<FetchOptions<R>, "method"> = {}
 ): ClientBuilder {
   // Callable internal target required to use `apply` on it
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -50,7 +50,10 @@ export function createClient<R extends ResponseType = "json">(
 
           opts.method = method;
 
-          return $fetch<T, R>(url, defu(opts, defaults) as FetchOptions<R>);
+          return $fetch<T, R>(
+            url,
+            defu(opts, defaultOptions) as FetchOptions<R>
+          );
         };
 
         return handler;
@@ -61,5 +64,5 @@ export function createClient<R extends ResponseType = "json">(
     });
   }
 
-  return p(url);
+  return p(baseUrl);
 }
