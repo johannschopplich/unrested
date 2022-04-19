@@ -26,7 +26,8 @@ describe("uncreate", () => {
       .use("/params", (req: any) => getQuery(req.url || ""));
 
     listener = await listen(app);
-    client = createClient(listener.url, {
+    client = createClient({
+      baseURL: listener.url,
       headers: {
         "X-Foo": "bar",
       },

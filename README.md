@@ -26,8 +26,19 @@ pnpm install uncreate # or npm or yarn
 ```ts
 import { createClient } from "uncreate";
 
-// The base URL is optional and will fall back to `/`
-const api = createClient("<baseURL>");
+// The base URL default is `/`
+const api = createClient();
+```
+
+`uncreate` inherits `ohmfetch`'s options. Refer to the [documentation for a complete list of options](https://github.com/unjs/ohmyfetch).
+
+```ts
+import { createClient } from "uncreate";
+
+// Set a custom base URL as needed
+const api = createClient({
+  baseURL: "https://jsonplaceholder.typicode.com",
+});
 ```
 
 ### Path Segment Chaining
@@ -78,8 +89,8 @@ const response = await api.users.post({ name: "foo" });
 ```ts
 import { createClient } from "uncreate";
 
-const api = createClient("<baseUrl>", {
-  // Complete list of options: https://github.com/unjs/ohmyfetch
+const api = createClient({
+  baseURL: "https://jsonplaceholder.typicode.com",
   async onRequestError({ request, options, error }) {
     console.log("[fetch request error]", request, error);
   },
