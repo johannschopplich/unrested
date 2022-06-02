@@ -24,21 +24,21 @@ pnpm install uncreate # or npm or yarn
 ## Usage
 
 ```ts
-import { createClient } from "uncreate";
+import { createClient } from 'uncreate'
 
 // The base URL default is `/`
-const api = createClient();
+const api = createClient()
 ```
 
 `uncreate` inherits `ohmfetch`'s options. Refer to the [documentation for a complete list of options](https://github.com/unjs/ohmyfetch).
 
 ```ts
-import { createClient } from "uncreate";
+import { createClient } from 'uncreate'
 
 // Set a custom base URL as needed
 const api = createClient({
-  baseURL: "https://jsonplaceholder.typicode.com",
-});
+  baseURL: 'https://jsonplaceholder.typicode.com',
+})
 ```
 
 ### Path Segment Chaining
@@ -47,22 +47,22 @@ Chain single path segments or path ids by a dot. You can even type the response 
 
 ```ts
 // GET request to <baseURL>/users
-const users = await api.users.get<UserResponse>();
+const users = await api.users.get<UserResponse>()
 
 // For GET request you can add search params
 // <baseURL>/users?search=john
-const users = await api.users.get<UserResponse>({ search: "john" });
+const users = await api.users.get<UserResponse>({ search: 'john' })
 ```
 
 To include dynamic API path segments, you have two options:
 
 ```ts
 // Typed GET request to <baseURL>/users/1
-const userId = 1;
+const userId = 1
 // … using the chain syntax:
-const user = await api.users(userId).get<UserResponse>();
+const user = await api.users(userId).get<UserResponse>()
 // … or the bracket syntax:
-const user = await api.users[`${userId}`].get<UserResponse>();
+const user = await api.users[`${userId}`].get<UserResponse>()
 ```
 
 ### HTTP Request Methods
@@ -81,23 +81,23 @@ For HTTP request methods supporting a payload, add it to the method call:
 
 ```ts
 // POST request to <baseURL>/users
-const response = await api.users.post({ name: "foo" });
+const response = await api.users.post({ name: 'foo' })
 ```
 
 ### Default Options For `$fetch`
 
 ```ts
-import { createClient } from "uncreate";
+import { createClient } from 'uncreate'
 
 const api = createClient({
-  baseURL: "https://jsonplaceholder.typicode.com",
+  baseURL: 'https://jsonplaceholder.typicode.com',
   async onRequestError({ request, options, error }) {
-    console.log("[fetch request error]", request, error);
+    console.log('[fetch request error]', request, error)
   },
   async onResponseError({ request, options, error }) {
-    console.log("[fetch response error]", request, error);
+    console.log('[fetch response error]', request, error)
   },
-});
+})
 ```
 
 ### Override Default Options
@@ -107,9 +107,9 @@ You can add/overwrite `$fetch` options on a method-level:
 ```ts
 const response = await api.users.get({
   headers: {
-    "Cache-Control": "no-cache",
+    'Cache-Control': 'no-cache',
   },
-});
+})
 ```
 
 ## Credits

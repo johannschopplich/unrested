@@ -1,13 +1,13 @@
-import { defineBuildConfig } from "unbuild";
+import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
-  entries: ["src/index"],
+  entries: ['src/index'],
   clean: true,
   declaration: true,
   replace: {
-    "import.meta.vitest": "false",
+    'import.meta.vitest': 'false',
   },
   rollup: {
     emitCJS: true,
   },
-});
+})

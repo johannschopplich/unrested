@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
     "module": "esnext",
     "moduleResolution": "node",
-    "types": ["vitest/importMeta"],
+    "types": ["vitest"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
