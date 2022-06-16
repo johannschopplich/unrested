@@ -15,8 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Use Node.js v16
-        uses: actions/setup-node@v3
+      - name: actions/setup-node@v3
         with:
           node-version: 16.x
 
@@ -36,8 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Use Node.js v16
-        uses: actions/setup-node@v3
+      - name: actions/setup-node@v3
         with:
           node-version: 16.x
 
@@ -64,8 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set Node.js v${{ matrix.node }}
-        uses: actions/setup-node@v3
+      - name: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
 
