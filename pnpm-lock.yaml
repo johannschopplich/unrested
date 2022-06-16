@@ -3,7 +3,6 @@ lockfileVersion: 5.4
 specifiers:
   '@antfu/eslint-config': ^0.25.1
   bumpp: ^8.1.0
-  defu: ^6.0.0
   eslint: ^8.17.0
   h3: ^0.7.9
   listhen: ^0.2.13
@@ -15,7 +14,6 @@ specifiers:
   vitest: ^0.15.1
 
 dependencies:
-  defu: 6.0.0
   ohmyfetch: 0.4.18
   ufo: 0.8.4
 
@@ -1060,6 +1058,7 @@ packages:
 
   /defu/6.0.0:
     resolution: {integrity: sha512-t2MZGLf1V2rV4VBZbWIaXKdX/mUcYW0n2znQZoADBkGGxYL8EWqCuCZBmJPJ/Yy9fofJkyuuSuo5GSwo0XdEgw==}
+    dev: true
 
   /destr/1.1.1:
     resolution: {integrity: sha512-QqkneF8LrYmwATMdnuD2MLI3GHQIcBnG6qFC2q9bSH430VTCDAVjcspPmUaKhPGtAtPAftIUFqY1obQYQuwmbg==}

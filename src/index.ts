@@ -1,9 +1,9 @@
 import { $fetch } from 'ohmyfetch'
-import { defu } from 'defu'
 import { resolveURL, withQuery } from 'ufo'
 import type { QueryObject } from 'ufo'
 import type { FetchOptions } from 'ohmyfetch'
 import type { ClientBuilder, ClientMethodHandler, ResponseType } from './types'
+import { headersToObject } from './utils'
 
 export type { ClientBuilder }
 
@@ -44,7 +44,14 @@ export function createClient<R extends ResponseType = 'json'>(
 
           return $fetch<T, R>(
             url,
-            defu(opts, defaultOptions) as FetchOptions<R>,
+            {
+              ...defaultOptions,
+              ...opts,
+              headers: {
+                ...(headersToObject(defaultOptions.headers) || {}),
+                ...(headersToObject(opts.headers) || {}),
+              },
+            } as FetchOptions<R>,
           )
         }
 

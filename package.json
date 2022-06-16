@@ -43,7 +43,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "defu": "^6.0.0",
     "ohmyfetch": "^0.4.18",
     "ufo": "^0.8.4"
   },
