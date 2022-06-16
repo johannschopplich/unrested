@@ -1,6 +1,11 @@
-export function headersToObject(headers: HeadersInit = {}): Record<string, string> {
+export function headersToObject(headers: HeadersInit = {}) {
+  // SSR compatibility for `Headers` prototype
+  if (typeof Headers !== 'undefined' && headers instanceof Headers)
+    // @ts-expect-error: Headers is iterable
+    return Object.fromEntries([...headers.entries()])
+
   if (Array.isArray(headers))
     return Object.fromEntries(headers)
 
-  return Object.fromEntries([...Object.entries(headers)])
+  return headers as Record<string, string>
 }
