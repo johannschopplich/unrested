@@ -21,7 +21,6 @@ export function createClient<R extends ResponseType = 'json'>(
   defaultOptions: Omit<FetchOptions<R>, 'method'> = {},
 ): ClientBuilder {
   // Callable internal target required to use `apply` on it
-
   const internalTarget = (() => {}) as ClientBuilder
 
   function p(url: string): ClientBuilder {
