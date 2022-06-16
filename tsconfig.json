@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["esnext", "dom"],
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "types": ["vitest"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
