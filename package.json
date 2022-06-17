@@ -48,9 +48,9 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.1",
-    "bumpp": "^8.1.0",
+    "bumpp": "^8.2.0",
     "eslint": "^8.17.0",
-    "h3": "^0.7.9",
+    "h3": "^0.7.10",
     "listhen": "^0.2.13",
     "prettier": "^2.7.1",
     "typescript": "^4.7.3",
