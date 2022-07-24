@@ -21,14 +21,11 @@ jobs:
 
       - run: corepack enable
 
-      - name: Setup
-        run: npm i -g @antfu/ni
-
       - name: Install
-        run: nci
+        run: pnpm i
 
       - name: Lint
-        run: nr lint
+        run: pnpm run lint
 
   typecheck:
     runs-on: ubuntu-latest
@@ -41,14 +38,11 @@ jobs:
 
       - run: corepack enable
 
-      - name: Setup
-        run: npm i -g @antfu/ni
-
       - name: Install
-        run: nci
+        run: pnpm i
 
       - name: Typecheck
-        run: nr typecheck
+        run: pnpm run typecheck
 
   test:
     runs-on: ${{ matrix.os }}
@@ -68,14 +62,11 @@ jobs:
 
       - run: corepack enable
 
-      - name: Setup
-        run: npm i -g @antfu/ni
-
       - name: Install
-        run: nci
+        run: pnpm i
 
       - name: Build
-        run: nr build
+        run: pnpm run build
 
       - name: Test
-        run: nr test
+        run: pnpm run test

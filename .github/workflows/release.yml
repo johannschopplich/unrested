@@ -20,14 +20,11 @@ jobs:
 
       - run: corepack enable
 
-      - name: Setup
-        run: npm i -g @antfu/ni
-
       - name: Install
-        run: nci
+        run: pnpm i
 
       - name: Build
-        run: nr build
+        run: pnpm run build
 
       - name: Publish to npm
         run: npm publish --access public
