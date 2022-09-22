@@ -1,6 +1,6 @@
 import type { FetchOptions } from 'ohmyfetch'
 
-interface ResponseMap {
+export interface ResponseMap {
   blob: Blob
   text: string
   arrayBuffer: ArrayBuffer
