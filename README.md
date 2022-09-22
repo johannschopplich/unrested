@@ -2,6 +2,8 @@
 
 > Minimal, type-safe REST client using JS proxies.
 
+> ℹ️ If you like this package, [upvote this feature to be part of `unjs/ohmyfetch`](https://github.com/unjs/ohmyfetch/pull/69) Much appreciated.
+
 ## Features
 
 - 🌁 Lightweight, only 36 loc
