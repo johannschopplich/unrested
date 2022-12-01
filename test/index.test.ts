@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { createApp, useBody } from 'h3'
+import { createApp, eventHandler, readBody, toNodeListener } from 'h3'
 import { type Listener, listen } from 'listhen'
 import { getQuery } from 'ufo'
 import { type ClientBuilder, createClient } from '../src'
@@ -15,17 +15,17 @@ describe('uncreate', () => {
 
   beforeEach(async () => {
     const app = createApp()
-      .use('/foo/1', () => ({ foo: '1' }))
-      .use('/foo', () => ({ foo: 'bar' }))
-      .use('/bar', async (req: any) => ({
-        url: req.url,
-        body: await useBody(req),
-        headers: req.headers,
-        method: req.method,
-      }))
-      .use('/params', (req: any) => getQuery(req.url || ''))
+      .use('/foo/1', eventHandler(() => ({ foo: '1' })))
+      .use('/foo', eventHandler(() => ({ foo: 'bar' })))
+      .use('/bar', eventHandler(async event => ({
+        url: event.node.req.url,
+        body: await readBody(event),
+        headers: event.node.req.headers,
+        method: event.node.req.method,
+      })))
+      .use('/params', eventHandler(event => getQuery(event.node.req.url || '')))
 
-    listener = await listen(app)
+    listener = await listen(toNodeListener(app))
     client = createClient({
       baseURL: listener.url,
       headers: {
@@ -100,7 +100,10 @@ describe('uncreate', () => {
   })
 
   it('invalid api endpoint', async () => {
-    const err = await client.baz.get<GenericGetResponse>().catch(err => err)
-    expect(err.message).to.contain('404 Not Found')
+    async function invalidHandle() {
+      await client.baz.get<GenericGetResponse>()
+    }
+
+    expect(invalidHandle()).rejects.toThrow('404 Not Found')
   })
 })
