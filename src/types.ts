@@ -1,4 +1,4 @@
-import type { FetchOptions } from 'ohmyfetch'
+import type { FetchOptions } from 'ofetch'
 
 export interface ResponseMap {
   blob: Blob

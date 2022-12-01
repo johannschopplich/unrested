@@ -2,7 +2,7 @@
 
 > Minimal, type-safe REST client using JS proxies.
 
-> ℹ️ If you like this package, [upvote this feature to be part of `unjs/ohmyfetch`](https://github.com/unjs/ohmyfetch/pull/69) Much appreciated.
+> ℹ️ If you like this package, [upvote this feature to be part of `unjs/ofetch`](https://github.com/unjs/ofetch/pull/69) Much appreciated.
 
 ## Features
 
@@ -13,7 +13,7 @@
   - or `api.nested.users["1"].get()`
 - 🪵 Use other HTTP methods, like `.post()`
 
-`uncreate` uses [ohmyfetch](https://github.com/unjs/ohmyfetch) for data fetching under the hood. Thus, every option available for ohmyfetch is usable with uncreate as well!
+`uncreate` uses [ofetch](https://github.com/unjs/ofetch) for data fetching under the hood. Thus, every option available for ofetch is usable with uncreate as well!
 
 ## Installation
 
@@ -32,7 +32,7 @@ import { createClient } from 'uncreate'
 const api = createClient()
 ```
 
-`uncreate` inherits `ohmfetch`'s options. Refer to the [documentation for a complete list of options](https://github.com/unjs/ohmyfetch).
+`uncreate` inherits `ofetch`'s options. Refer to the [documentation for a complete list of options](https://github.com/unjs/ofetch).
 
 ```ts
 import { createClient } from 'uncreate'
