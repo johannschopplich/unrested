@@ -4,7 +4,7 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "types": ["vitest"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
