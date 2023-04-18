@@ -2,7 +2,7 @@
   "name": "uncreate",
   "type": "module",
   "version": "0.9.3",
-  "packageManager": "pnpm@8.1.0",
+  "packageManager": "pnpm@8.3.0",
   "description": "Minimal, type-safe REST client using JS proxies",
   "author": "Johann Schopplich <pkg@johannschopplich.com>",
   "license": "MIT",
@@ -47,14 +47,14 @@
     "ufo": "^1.1.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.0",
+    "@antfu/eslint-config": "^0.38.5",
     "bumpp": "^9.1.0",
-    "eslint": "^8.37.0",
+    "eslint": "^8.38.0",
     "h3": "^1.6.4",
     "listhen": "^1.0.4",
     "prettier": "^2.8.7",
-    "typescript": "^5.0.2",
-    "unbuild": "^1.1.2",
-    "vitest": "^0.29.8"
+    "typescript": "^5.0.4",
+    "unbuild": "^1.2.1",
+    "vitest": "^0.30.1"
   }
 }
