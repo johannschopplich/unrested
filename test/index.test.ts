@@ -104,6 +104,6 @@ describe('uncreate', () => {
       await client.baz.get<GenericGetResponse>()
     }
 
-    expect(invalidHandle()).rejects.toThrow(/fetch failed/)
+    expect(invalidHandle()).rejects.toThrow(/404/)
   })
 })
