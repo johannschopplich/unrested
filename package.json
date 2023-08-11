@@ -1,18 +1,18 @@
 {
-  "name": "uncreate",
+  "name": "unrested",
   "type": "module",
   "version": "0.9.3",
-  "packageManager": "pnpm@8.5.1",
+  "packageManager": "pnpm@8.6.12",
   "description": "Minimal, type-safe REST client using JS proxies",
   "author": "Johann Schopplich <pkg@johannschopplich.com>",
   "license": "MIT",
-  "homepage": "https://github.com/johannschopplich/uncreate#readme",
+  "homepage": "https://github.com/johannschopplich/unrested#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johannschopplich/uncreate.git"
+    "url": "git+https://github.com/johannschopplich/unrested.git"
   },
   "bugs": {
-    "url": "https://github.com/johannschopplich/uncreate/issues"
+    "url": "https://github.com/johannschopplich/unrested/issues"
   },
   "keywords": [
     "ofetch",
@@ -23,8 +23,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
   },
   "main": "./dist/index.mjs",
@@ -43,17 +43,17 @@
     "test:types": "tsc --noEmit"
   },
   "dependencies": {
-    "ofetch": "^1.0.1",
-    "ufo": "^1.1.2"
+    "ofetch": "^1.1.1",
+    "ufo": "^1.2.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.1",
-    "bumpp": "^9.1.0",
-    "eslint": "^8.41.0",
-    "h3": "^1.6.6",
-    "listhen": "^1.0.4",
-    "typescript": "^5.0.4",
-    "unbuild": "^1.2.1",
-    "vitest": "^0.31.1"
+    "@antfu/eslint-config": "^0.40.2",
+    "bumpp": "^9.1.1",
+    "eslint": "^8.47.0",
+    "h3": "^1.7.1",
+    "listhen": "^1.2.2",
+    "typescript": "^5.1.6",
+    "unbuild": "^2.0.0-rc.0",
+    "vitest": "^0.34.1"
   }
 }

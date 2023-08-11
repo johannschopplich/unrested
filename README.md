@@ -1,4 +1,4 @@
-# uncreate
+# unrested
 
 > Minimal, type-safe REST client using JS proxies.
 
@@ -13,29 +13,29 @@
   - or `api.nested.users["1"].get()`
 - 🪵 Use other HTTP methods, like `.post()`
 
-`uncreate` uses [ofetch](https://github.com/unjs/ofetch) for data fetching under the hood. Thus, every option available for ofetch is usable with uncreate as well!
+`unrested` uses [ofetch](https://github.com/unjs/ofetch) for data fetching under the hood. Thus, every option available for ofetch is usable with unrested as well!
 
 ## Installation
 
-Run the following command to add `uncreate` to your project.
+Run the following command to add `unrested` to your project.
 
 ```bash
-pnpm install uncreate # or npm or yarn
+pnpm install unrested # or npm or yarn
 ```
 
 ## Usage
 
 ```ts
-import { createClient } from 'uncreate'
+import { createClient } from 'unrested'
 
 // The base URL default is `/`
 const api = createClient()
 ```
 
-`uncreate` inherits `ofetch`'s options. Refer to the [documentation for a complete list of options](https://github.com/unjs/ofetch).
+`unrested` inherits `ofetch`'s options. Refer to the [documentation for a complete list of options](https://github.com/unjs/ofetch).
 
 ```ts
-import { createClient } from 'uncreate'
+import { createClient } from 'unrested'
 
 // Set a custom base URL as needed
 const api = createClient({
@@ -86,10 +86,10 @@ For HTTP request methods supporting a payload, add it to the method call:
 const response = await api.users.post({ name: 'foo' })
 ```
 
-### Default Options For `$fetch`
+### Default Options For `ofetch`
 
 ```ts
-import { createClient } from 'uncreate'
+import { createClient } from 'unrested'
 
 const api = createClient({
   baseURL: 'https://jsonplaceholder.typicode.com',
@@ -104,7 +104,7 @@ const api = createClient({
 
 ### Override Default Options
 
-You can add/overwrite `$fetch` options on a method-level:
+You can add/overwrite `ofetch` options on a method-level:
 
 ```ts
 const response = await api.users.get({

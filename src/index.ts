@@ -1,4 +1,4 @@
-import { $fetch } from 'ofetch'
+import { ofetch } from 'ofetch'
 import { resolveURL, withQuery } from 'ufo'
 import type { QueryObject } from 'ufo'
 import type { FetchOptions } from 'ofetch'
@@ -7,12 +7,12 @@ import { headersToObject } from './utils'
 
 export type { ClientBuilder }
 
-const payloadMethods: ReadonlyArray<string> = [
+const payloadMethods = [
   'POST',
   'PUT',
   'DELETE',
   'PATCH',
-]
+] as const
 
 /**
  * Minimal, type-safe REST client using JS proxies
@@ -37,12 +37,12 @@ export function createClient<R extends ResponseType = 'json'>(
         ) => {
           if (method === 'GET' && data)
             url = withQuery(url, data as QueryObject)
-          else if (payloadMethods.includes(method))
+          else if (payloadMethods.includes(method as typeof payloadMethods[number]))
             opts.body = data
 
           opts.method = method
 
-          return $fetch<T, R>(
+          return ofetch<T, R>(
             url,
             {
               ...defaultOptions,

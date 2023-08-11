@@ -9,7 +9,7 @@ interface GenericGetResponse {
   foo: string
 }
 
-describe('uncreate', () => {
+describe('unrested', () => {
   let listener: Listener
   let client: ClientBuilder
 
