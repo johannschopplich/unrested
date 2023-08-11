@@ -20,7 +20,14 @@
 Run the following command to add `unrested` to your project.
 
 ```bash
-pnpm install unrested # or npm or yarn
+# pnpm
+pnpm add -D unrested
+
+# npm
+npm install -D unrested
+
+# yarn
+yarn add -D unrested
 ```
 
 ## Usage
