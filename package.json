@@ -15,9 +15,10 @@
     "url": "https://github.com/johannschopplich/unrested/issues"
   },
   "keywords": [
-    "ofetch",
+    "api",
     "fetch",
-    "api"
+    "ofetch",
+    "rest"
   ],
   "sideEffects": false,
   "exports": {
