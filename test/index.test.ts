@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createApp, eventHandler, readBody, toNodeListener } from 'h3'
 import { type Listener, listen } from 'listhen'
 import { getQuery } from 'ufo'
-import { type ClientBuilder, createClient } from '../src'
+import { type ApiBuilder, createClient } from '../src'
 
 // Test TypeScript support
 interface GenericGetResponse {
@@ -11,7 +11,7 @@ interface GenericGetResponse {
 
 describe('unrested', () => {
   let listener: Listener
-  let client: ClientBuilder
+  let client: ApiBuilder
 
   beforeEach(async () => {
     const app = createApp()
