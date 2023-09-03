@@ -9,18 +9,18 @@ export interface ResponseMap {
 export type ResponseType = keyof ResponseMap | 'json'
 export type MappedType<R extends ResponseType, JsonType = any> = R extends keyof ResponseMap ? ResponseMap[R] : JsonType
 
-export type ClientMethodHandler = <T = any, R extends ResponseType = 'json'>(
+export type ApiMethodHandler = <T = any, R extends ResponseType = 'json'>(
   data?: RequestInit['body'] | Record<string, any>,
   opts?: Omit<FetchOptions<R>, 'baseURL' | 'method'>
 ) => Promise<MappedType<R, T>>
 
-export type ClientBuilder = {
-  [key: string]: ClientBuilder
-  (...segmentsOrIds: (string | number)[]): ClientBuilder
+export type ApiBuilder = {
+  [key: string]: ApiBuilder
+  (...segmentsOrIds: (string | number)[]): ApiBuilder
 } & {
-  get: ClientMethodHandler
-  post: ClientMethodHandler
-  put: ClientMethodHandler
-  delete: ClientMethodHandler
-  patch: ClientMethodHandler
+  get: ApiMethodHandler
+  post: ApiMethodHandler
+  put: ApiMethodHandler
+  delete: ApiMethodHandler
+  patch: ApiMethodHandler
 }

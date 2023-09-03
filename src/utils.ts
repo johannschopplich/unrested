@@ -1,9 +1,34 @@
-export function headersToObject(headers: HeadersInit = {}): Record<string, string> {
-  if (headers instanceof Headers)
-    return Object.fromEntries([...headers.entries()])
+import type { FetchOptions } from 'ofetch'
 
-  if (Array.isArray(headers))
-    return Object.fromEntries(headers)
+export function mergeFetchOptions(
+  input: FetchOptions | undefined,
+  defaults: FetchOptions | undefined,
+): FetchOptions {
+  const merged: FetchOptions = {
+    ...defaults,
+    ...input,
+  }
 
-  return headers
+  // Merge params and query
+  if (defaults?.params && input?.params) {
+    merged.params = {
+      ...defaults?.params,
+      ...input?.params,
+    }
+  }
+  if (defaults?.query && input?.query) {
+    merged.query = {
+      ...defaults?.query,
+      ...input?.query,
+    }
+  }
+
+  // Merge headers
+  if (defaults?.headers && input?.headers) {
+    merged.headers = new Headers(defaults?.headers || {})
+    for (const [key, value] of new Headers(input?.headers || {}))
+      merged.headers.set(key, value)
+  }
+
+  return merged
 }

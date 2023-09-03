@@ -1,11 +1,11 @@
 import { ofetch } from 'ofetch'
-import { resolveURL, withQuery } from 'ufo'
+import { joinURL } from 'ufo'
 import type { QueryObject } from 'ufo'
 import type { FetchOptions } from 'ofetch'
-import type { ClientBuilder, ClientMethodHandler, ResponseType } from './types'
-import { headersToObject } from './utils'
+import type { ApiBuilder, ApiMethodHandler, ResponseType } from './types'
+import { mergeFetchOptions } from './utils'
 
-export type { ClientBuilder }
+export type { ApiBuilder }
 
 const payloadMethods = [
   'POST',
@@ -19,24 +19,24 @@ const payloadMethods = [
  */
 export function createClient<R extends ResponseType = 'json'>(
   defaultOptions: Omit<FetchOptions<R>, 'method'> = {},
-): ClientBuilder {
+): ApiBuilder {
   // Callable internal target required to use `apply` on it
-  const internalTarget = (() => {}) as ClientBuilder
+  const internalTarget = (() => {}) as ApiBuilder
 
-  function p(url: string): ClientBuilder {
+  function p(url: string): ApiBuilder {
     return new Proxy(internalTarget, {
       get(_target, key: string) {
         const method = key.toUpperCase()
 
         if (!['GET', ...payloadMethods].includes(method))
-          return p(resolveURL(url, key))
+          return p(joinURL(url, key))
 
-        const handler: ClientMethodHandler = <T = any, R extends ResponseType = 'json'>(
+        const handler: ApiMethodHandler = <T = any, R extends ResponseType = 'json'>(
           data?: RequestInit['body'] | Record<string, any>,
           opts: FetchOptions<R> = {},
         ) => {
           if (method === 'GET' && data)
-            url = withQuery(url, data as QueryObject)
+            opts.query = data as QueryObject
           else if (payloadMethods.includes(method as typeof payloadMethods[number]))
             opts.body = data
 
@@ -44,21 +44,14 @@ export function createClient<R extends ResponseType = 'json'>(
 
           return ofetch<T, R>(
             url,
-            {
-              ...defaultOptions,
-              ...opts,
-              headers: {
-                ...headersToObject(defaultOptions.headers),
-                ...headersToObject(opts.headers),
-              },
-            } as FetchOptions<R>,
+            mergeFetchOptions(opts, defaultOptions) as FetchOptions<R>,
           )
         }
 
         return handler
       },
       apply(_target, _thisArg, args: (string | number)[] = []) {
-        return p(resolveURL(url, ...args.map(i => `${i}`)))
+        return p(joinURL(url, ...args.map(i => `${i}`)))
       },
     })
   }
