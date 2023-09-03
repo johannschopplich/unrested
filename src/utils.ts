@@ -1,8 +1,8 @@
 import type { FetchOptions } from 'ofetch'
 
 export function mergeFetchOptions(
-  input: FetchOptions | undefined,
-  defaults: FetchOptions | undefined,
+  input?: FetchOptions,
+  defaults?: FetchOptions,
 ): FetchOptions {
   const merged: FetchOptions = {
     ...defaults,
