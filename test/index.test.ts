@@ -72,13 +72,20 @@ describe('unrested', () => {
   })
 
   it('default options', async () => {
-    const { headers } = await client.bar.post()
-    expect(headers).to.include({ 'x-foo': 'bar' })
+    const { headers } = await client.bar.post(undefined, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    expect(headers).to.include({
+      'x-foo': 'bar',
+      'content-type': 'application/json',
+    })
   })
 
   it('override default options', async () => {
     const { headers } = await client.bar.post(
-      {},
+      undefined,
       { headers: { 'X-Foo': 'baz' } },
     )
     expect(headers).to.include({ 'x-foo': 'baz' })

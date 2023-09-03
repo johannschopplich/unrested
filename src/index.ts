@@ -1,18 +1,12 @@
 import { ofetch } from 'ofetch'
 import { joinURL } from 'ufo'
-import type { QueryObject } from 'ufo'
 import type { FetchOptions } from 'ofetch'
 import type { ApiBuilder, ApiMethodHandler, ResponseType } from './types'
 import { mergeFetchOptions } from './utils'
 
 export type { ApiBuilder }
 
-const payloadMethods = [
-  'POST',
-  'PUT',
-  'DELETE',
-  'PATCH',
-] as const
+const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
 
 /**
  * Minimal, type-safe REST client using JS proxies
@@ -32,12 +26,12 @@ export function createClient<R extends ResponseType = 'json'>(
           return p(joinURL(url, key))
 
         const handler: ApiMethodHandler = <T = any, R extends ResponseType = 'json'>(
-          data?: RequestInit['body'] | Record<string, any>,
+          data?: any,
           opts: FetchOptions<R> = {},
         ) => {
-          if (method === 'GET' && data)
-            opts.query = data as QueryObject
-          else if (payloadMethods.includes(method as typeof payloadMethods[number]))
+          if (method === 'GET')
+            opts.query = data
+          else if (payloadMethods.includes(method))
             opts.body = data
 
           opts.method = method
