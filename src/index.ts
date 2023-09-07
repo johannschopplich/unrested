@@ -29,9 +29,9 @@ export function createClient<R extends ResponseType = 'json'>(
           data?: any,
           opts: FetchOptions<R> = {},
         ) => {
-          if (method === 'GET')
+          if (method === 'GET' && data)
             opts.query = data
-          else if (payloadMethods.includes(method))
+          else if (payloadMethods.includes(method) && data)
             opts.body = data
 
           opts.method = method
