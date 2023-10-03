@@ -1,3 +1,4 @@
+/* eslint-disable test/prefer-lowercase-title */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createApp, eventHandler, readBody, toNodeListener } from 'h3'
 import { type Listener, listen } from 'listhen'
