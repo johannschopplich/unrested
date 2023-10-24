@@ -45,7 +45,7 @@ export function createClient<R extends ResponseType = 'json'>(
         return handler
       },
       apply(_target, _thisArg, args: (string | number)[] = []) {
-        return p(joinURL(url, ...args.map(i => `${i}`)))
+        return p(joinURL(url, ...args.map(String)))
       },
     })
   }
