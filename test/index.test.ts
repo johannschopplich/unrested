@@ -1,9 +1,11 @@
 /* eslint-disable test/prefer-lowercase-title */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createApp, eventHandler, readBody, toNodeListener } from 'h3'
-import { type Listener, listen } from 'listhen'
+import { listen } from 'listhen'
 import { getQuery } from 'ufo'
-import { type ApiBuilder, createClient } from '../src'
+import type { Listener } from 'listhen'
+import { createClient } from '../src'
+import type { ApiBuilder } from '../src'
 
 // Test TypeScript support
 interface GenericGetResponse {
