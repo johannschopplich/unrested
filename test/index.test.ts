@@ -107,11 +107,9 @@ describe('unrested', () => {
     expect(response).to.deep.equal({ foo: '1' })
   })
 
-  it('invalid api endpoint', async () => {
-    async function invalidHandle() {
+  it('invalid api endpoint', () => {
+    expect(async () => {
       await client.baz.get<GenericGetResponse>()
-    }
-
-    expect(invalidHandle()).rejects.toThrow(/404/)
+    }).rejects.toThrow(/404/)
   })
 })
