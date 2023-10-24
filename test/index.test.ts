@@ -1,6 +1,6 @@
 /* eslint-disable test/prefer-lowercase-title */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { createApp, eventHandler, readBody, toNodeListener } from 'h3'
+import { createApp, eventHandler, getRequestHeaders, readBody, toNodeListener } from 'h3'
 import { listen } from 'listhen'
 import { getQuery } from 'ufo'
 import type { Listener } from 'listhen'
@@ -21,12 +21,12 @@ describe('unrested', () => {
       .use('/foo/1', eventHandler(() => ({ foo: '1' })))
       .use('/foo', eventHandler(() => ({ foo: 'bar' })))
       .use('/bar', eventHandler(async event => ({
-        url: event.node.req.url,
+        url: event.path,
         body: await readBody(event),
-        headers: event.node.req.headers,
-        method: event.node.req.method,
+        headers: getRequestHeaders(event),
+        method: event.method,
       })))
-      .use('/params', eventHandler(event => getQuery(event.node.req.url || '')))
+      .use('/params', eventHandler(event => getQuery(event.path || '')))
 
     listener = await listen(toNodeListener(app))
     client = createClient({
