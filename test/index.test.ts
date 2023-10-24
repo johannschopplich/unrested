@@ -1,8 +1,7 @@
 /* eslint-disable test/prefer-lowercase-title */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { createApp, eventHandler, getRequestHeaders, readBody, toNodeListener } from 'h3'
+import { createApp, eventHandler, getQuery, getRequestHeaders, readBody, toNodeListener } from 'h3'
 import { listen } from 'listhen'
-import { getQuery } from 'ufo'
 import type { Listener } from 'listhen'
 import { createClient } from '../src'
 import type { ApiBuilder } from '../src'
@@ -26,7 +25,7 @@ describe('unrested', () => {
         headers: getRequestHeaders(event),
         method: event.method,
       })))
-      .use('/params', eventHandler(event => getQuery(event.path || '')))
+      .use('/params', eventHandler(event => getQuery(event)))
 
     listener = await listen(toNodeListener(app))
     client = createClient({
