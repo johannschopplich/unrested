@@ -7,7 +7,7 @@ import { createClient } from '../src'
 import type { ApiBuilder } from '../src'
 
 // Test TypeScript support
-interface GenericGetResponse {
+interface ApiGETResponse {
   foo: string
 }
 
@@ -94,23 +94,23 @@ describe('unrested', () => {
   })
 
   it('bracket syntax for path segment', async () => {
-    const response = await client.foo['1'].get<GenericGetResponse>()
+    const response = await client.foo['1'].get<ApiGETResponse>()
     expect(response).to.deep.equal({ foo: '1' })
   })
 
   it('chain syntax for path segment', async () => {
-    const response = await client.foo(1).get<GenericGetResponse>()
+    const response = await client.foo(1).get<ApiGETResponse>()
     expect(response).to.deep.equal({ foo: '1' })
   })
 
   it('multiple path segments', async () => {
-    const response = await client('foo', '1').get<GenericGetResponse>()
+    const response = await client('foo', '1').get<ApiGETResponse>()
     expect(response).to.deep.equal({ foo: '1' })
   })
 
   it('invalid api endpoint', () => {
     expect(async () => {
-      await client.baz.get<GenericGetResponse>()
+      await client.baz.get<ApiGETResponse>()
     }).rejects.toThrow(/404/)
   })
 })
