@@ -4,8 +4,6 @@ import type { FetchOptions } from 'ofetch'
 import type { ApiBuilder, ApiMethodHandler, ResponseType } from './types'
 import { mergeFetchOptions } from './utils'
 
-export type { ApiBuilder }
-
 const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
 
 /**
@@ -52,3 +50,5 @@ export function createClient<R extends ResponseType = 'json'>(
 
   return p(defaultOptions.baseURL || '/')
 }
+
+export type { ApiBuilder } from './types'
