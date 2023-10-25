@@ -12,7 +12,7 @@ export type MappedType<
   JsonType = any,
 > = R extends keyof ResponseMap ? ResponseMap[R] : JsonType
 
-export type ApiClientFetcher<Data = never> = <
+export type ApiClientFetcher<Data = unknown> = <
   T = any,
   R extends ResponseType = 'json',
 >(
