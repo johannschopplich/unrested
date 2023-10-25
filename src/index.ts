@@ -1,7 +1,7 @@
 import { ofetch } from 'ofetch'
 import { joinURL } from 'ufo'
 import type { FetchOptions } from 'ofetch'
-import type { ApiBuilder, ApiMethodHandler, ResponseType } from './types'
+import type { ApiClient, ApiMethodHandler, ResponseType } from './types'
 import { mergeFetchOptions } from './utils'
 
 const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
@@ -11,11 +11,11 @@ const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
  */
 export function createClient<R extends ResponseType = 'json'>(
   defaultOptions: Omit<FetchOptions<R>, 'method'> = {},
-): ApiBuilder {
+): ApiClient {
   // Callable internal target required to use `apply` on it
-  const internalTarget = (() => {}) as ApiBuilder
+  const internalTarget = (() => {}) as ApiClient
 
-  function p(url: string): ApiBuilder {
+  function p(url: string): ApiClient {
     return new Proxy(internalTarget, {
       get(_target, key: string) {
         const method = key.toUpperCase()
@@ -51,4 +51,4 @@ export function createClient<R extends ResponseType = 'json'>(
   return p(defaultOptions.baseURL || '/')
 }
 
-export type { ApiBuilder } from './types'
+export type { ApiClient } from './types'

@@ -4,7 +4,7 @@ import { createApp, eventHandler, getQuery, getRequestHeaders, readBody, toNodeL
 import { listen } from 'listhen'
 import type { Listener } from 'listhen'
 import { createClient } from '../src'
-import type { ApiBuilder } from '../src'
+import type { ApiClient } from '../src'
 
 // Test TypeScript support
 interface ApiGETResponse {
@@ -13,7 +13,7 @@ interface ApiGETResponse {
 
 describe('unrested', () => {
   let listener: Listener
-  let client: ApiBuilder
+  let client: ApiClient
 
   beforeEach(async () => {
     const app = createApp()

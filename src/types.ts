@@ -20,9 +20,9 @@ export type ApiMethodHandler<Data = never> = <
   opts?: Omit<FetchOptions<R>, 'baseURL' | 'method'>,
 ) => Promise<MappedType<R, T>>
 
-export type ApiBuilder = {
-  [key: string]: ApiBuilder
-  (...segmentsOrIds: (string | number)[]): ApiBuilder
+export type ApiClient = {
+  [key: string]: ApiClient
+  (...args: (string | number)[]): ApiClient
 } & {
   get: ApiMethodHandler<FetchOptions['query']>
   post: ApiMethodHandler<FetchOptions['body']>
