@@ -1,7 +1,7 @@
 import { ofetch } from 'ofetch'
 import { joinURL } from 'ufo'
 import type { FetchOptions } from 'ofetch'
-import type { ApiClient, ApiMethodHandler, ResponseType } from './types'
+import type { ApiClient, ApiClientFetcher, ResponseType } from './types'
 import { mergeFetchOptions } from './utils'
 
 const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
@@ -23,7 +23,7 @@ export function createClient<R extends ResponseType = 'json'>(
         if (!['GET', ...payloadMethods].includes(method))
           return p(joinURL(url, key))
 
-        const handler: ApiMethodHandler = <T = any, R extends ResponseType = 'json'>(
+        const handler: ApiClientFetcher = <T = any, R extends ResponseType = 'json'>(
           data?: any,
           opts: FetchOptions<R> = {},
         ) => {
