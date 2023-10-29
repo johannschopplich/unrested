@@ -6,9 +6,6 @@ import { mergeFetchOptions } from './utils'
 
 const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
 
-/**
- * Minimal, type-safe REST client using JS proxies
- */
 export function createClient<R extends ResponseType = 'json'>(
   defaultOptions: Omit<FetchOptions<R>, 'method'> = {},
 ): ApiClient {
