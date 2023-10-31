@@ -7,26 +7,26 @@ export interface ResponseMap {
 }
 
 export type ResponseType = keyof ResponseMap | 'json'
-export type MappedType<
+export type MappedResponseType<
   R extends ResponseType,
   JsonType = any,
 > = R extends keyof ResponseMap ? ResponseMap[R] : JsonType
 
-export type ApiClientFetcher<Data = unknown> = <
+export type $Fetch<Data = unknown> = <
   T = any,
   R extends ResponseType = 'json',
 >(
   data?: Data,
   opts?: Omit<FetchOptions<R>, 'baseURL' | 'method'>,
-) => Promise<MappedType<R, T>>
+) => Promise<MappedResponseType<R, T>>
 
 export type ApiClient = {
   [key: string]: ApiClient
   (...args: (string | number)[]): ApiClient
 } & {
-  get: ApiClientFetcher<FetchOptions['query']>
-  post: ApiClientFetcher<FetchOptions['body']>
-  put: ApiClientFetcher<FetchOptions['body']>
-  delete: ApiClientFetcher<FetchOptions['body']>
-  patch: ApiClientFetcher<FetchOptions['body']>
+  get: $Fetch<FetchOptions['query']>
+  post: $Fetch<FetchOptions['body']>
+  put: $Fetch<FetchOptions['body']>
+  delete: $Fetch<FetchOptions['body']>
+  patch: $Fetch<FetchOptions['body']>
 }

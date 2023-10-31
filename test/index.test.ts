@@ -6,8 +6,8 @@ import type { Listener } from 'listhen'
 import { createClient } from '../src'
 import type { ApiClient } from '../src'
 
-// Test TypeScript support
-interface ApiGETResponse {
+// Test TypeScript generic
+interface FooResponse {
   foo: string
 }
 
@@ -94,23 +94,23 @@ describe('unrested', () => {
   })
 
   it('bracket syntax for path segment', async () => {
-    const response = await client.foo['1'].get<ApiGETResponse>()
+    const response = await client.foo['1'].get<FooResponse>()
     expect(response).to.deep.equal({ foo: '1' })
   })
 
   it('chain syntax for path segment', async () => {
-    const response = await client.foo(1).get<ApiGETResponse>()
+    const response = await client.foo(1).get<FooResponse>()
     expect(response).to.deep.equal({ foo: '1' })
   })
 
   it('multiple path segments', async () => {
-    const response = await client('foo', '1').get<ApiGETResponse>()
+    const response = await client('foo', '1').get<FooResponse>()
     expect(response).to.deep.equal({ foo: '1' })
   })
 
   it('invalid api endpoint', () => {
     expect(async () => {
-      await client.baz.get<ApiGETResponse>()
+      await client.baz.get<FooResponse>()
     }).rejects.toThrow(/404/)
   })
 })
