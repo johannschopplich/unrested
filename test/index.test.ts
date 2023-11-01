@@ -41,7 +41,7 @@ describe('unrested', () => {
   })
 
   it('GET request', async () => {
-    const response = await client.foo.get()
+    const response = await client.foo.get<FooResponse>()
     expect(response).toEqual({ foo: 'bar' })
   })
 
