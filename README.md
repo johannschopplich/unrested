@@ -2,7 +2,8 @@
 
 > Minimal, type-safe REST client using JS proxies.
 
-> ℹ️ If you like this package, [upvote this feature to be part of `unjs/ofetch`](https://github.com/unjs/ofetch/pull/69) Much appreciated.
+> [!NOTE]
+> Thanks to everyone who has [upvoted this feature to be part of `unjs/ofetch`](https://github.com/unjs/ofetch/pull/69)! This library will be part of the upcoming [`api-party`](https://github.com/unjs/api-party) package.
 
 ## Features
 
@@ -128,4 +129,4 @@ const response = await api.users.get({
 
 ## License
 
-[MIT](./LICENSE) License © 2022-2023 [Johann Schopplich](https://github.com/johannschopplich)
+[MIT](./LICENSE) License © 2022-PRESENT [Johann Schopplich](https://github.com/johannschopplich)

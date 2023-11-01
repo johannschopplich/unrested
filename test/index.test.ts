@@ -42,35 +42,35 @@ describe('unrested', () => {
 
   it('GET request', async () => {
     const response = await client.foo.get()
-    expect(response).to.deep.equal({ foo: 'bar' })
+    expect(response).toEqual({ foo: 'bar' })
   })
 
   it('POST request', async () => {
     const response = await client.bar.post({ foo: 'bar' })
-    expect(response.body).to.deep.equal({ foo: 'bar' })
-    expect(response.method).to.equal('POST')
+    expect(response.body).toEqual({ foo: 'bar' })
+    expect(response.method).toEqual('POST')
   })
 
   it('PUT request', async () => {
     const response = await client.bar.put({ foo: 'bar' })
-    expect(response.body).to.deep.equal({ foo: 'bar' })
-    expect(response.method).to.equal('PUT')
+    expect(response.body).toEqual({ foo: 'bar' })
+    expect(response.method).toEqual('PUT')
   })
 
   it('DELETE request', async () => {
     const response = await client.bar.delete()
-    expect(response.method).to.equal('DELETE')
+    expect(response.method).toEqual('DELETE')
   })
 
   it('PATCH request', async () => {
     const response = await client.bar.patch({ foo: 'bar' })
-    expect(response.body).to.deep.equal({ foo: 'bar' })
-    expect(response.method).to.equal('PATCH')
+    expect(response.body).toEqual({ foo: 'bar' })
+    expect(response.method).toEqual('PATCH')
   })
 
   it('query parameter', async () => {
     const response = await client.params.get({ test: 'true' })
-    expect(response).to.deep.equal({ test: 'true' })
+    expect(response).toEqual({ test: 'true' })
   })
 
   it('default options', async () => {
@@ -95,19 +95,19 @@ describe('unrested', () => {
 
   it('bracket syntax for path segment', async () => {
     const response = await client.foo['1'].get<FooResponse>()
-    expect(response).to.deep.equal({ foo: '1' })
+    expect(response).toEqual({ foo: '1' })
     assertType<{ foo: string }>(response)
   })
 
   it('chain syntax for path segment', async () => {
     const response = await client.foo(1).get<FooResponse>()
-    expect(response).to.deep.equal({ foo: '1' })
+    expect(response).toEqual({ foo: '1' })
     assertType<{ foo: string }>(response)
   })
 
   it('multiple path segments', async () => {
     const response = await client('foo', '1').get<FooResponse>()
-    expect(response).to.deep.equal({ foo: '1' })
+    expect(response).toEqual({ foo: '1' })
     assertType<{ foo: string }>(response)
   })
 
