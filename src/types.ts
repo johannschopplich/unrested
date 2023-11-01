@@ -12,7 +12,7 @@ export type MappedResponseType<
   JsonType = any,
 > = R extends keyof ResponseMap ? ResponseMap[R] : JsonType
 
-export type $Fetch<Data = unknown> = <
+export type ApiClientFetcher<Data = unknown> = <
   T = any,
   R extends ResponseType = 'json',
 >(
@@ -24,9 +24,9 @@ export type ApiClient = {
   [key: string]: ApiClient
   (...args: (string | number)[]): ApiClient
 } & {
-  get: $Fetch<FetchOptions['query']>
-  post: $Fetch<FetchOptions['body']>
-  put: $Fetch<FetchOptions['body']>
-  delete: $Fetch<FetchOptions['body']>
-  patch: $Fetch<FetchOptions['body']>
+  get: ApiClientFetcher<FetchOptions['query']>
+  post: ApiClientFetcher<FetchOptions['body']>
+  put: ApiClientFetcher<FetchOptions['body']>
+  delete: ApiClientFetcher<FetchOptions['body']>
+  patch: ApiClientFetcher<FetchOptions['body']>
 }

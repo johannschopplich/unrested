@@ -1,5 +1,5 @@
 /* eslint-disable test/prefer-lowercase-title */
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, assertType, beforeAll, describe, expect, it } from 'vitest'
 import { createApp, eventHandler, getQuery, getRequestHeaders, readBody, toNodeListener } from 'h3'
 import { listen } from 'listhen'
 import type { Listener } from 'listhen'
@@ -15,7 +15,7 @@ describe('unrested', () => {
   let listener: Listener
   let client: ApiClient
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const app = createApp()
       .use('/foo/1', eventHandler(() => ({ foo: '1' })))
       .use('/foo', eventHandler(() => ({ foo: 'bar' })))
@@ -36,7 +36,7 @@ describe('unrested', () => {
     })
   })
 
-  afterEach(async () => {
+  afterAll(async () => {
     await listener.close()
   })
 
@@ -96,16 +96,19 @@ describe('unrested', () => {
   it('bracket syntax for path segment', async () => {
     const response = await client.foo['1'].get<FooResponse>()
     expect(response).to.deep.equal({ foo: '1' })
+    assertType<{ foo: string }>(response)
   })
 
   it('chain syntax for path segment', async () => {
     const response = await client.foo(1).get<FooResponse>()
     expect(response).to.deep.equal({ foo: '1' })
+    assertType<{ foo: string }>(response)
   })
 
   it('multiple path segments', async () => {
     const response = await client('foo', '1').get<FooResponse>()
     expect(response).to.deep.equal({ foo: '1' })
+    assertType<{ foo: string }>(response)
   })
 
   it('invalid api endpoint', () => {

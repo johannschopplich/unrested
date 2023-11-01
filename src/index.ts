@@ -1,9 +1,11 @@
 import { ofetch } from 'ofetch'
 import { joinURL } from 'ufo'
 import type { FetchOptions } from 'ofetch'
-import type { $Fetch, ApiClient, ResponseType } from './types'
+import type { ApiClient, ApiClientFetcher, ResponseType } from './types'
 
 const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
+
+export type { ApiClient } from './types'
 
 export function createClient<R extends ResponseType = 'json'>(
   defaultOptions: Omit<FetchOptions<R>, 'method'> = {},
@@ -19,7 +21,7 @@ export function createClient<R extends ResponseType = 'json'>(
         if (!['GET', ...payloadMethods].includes(method))
           return p(joinURL(url, key))
 
-        const handler: $Fetch = <T = any, R extends ResponseType = 'json'>(
+        const handler: ApiClientFetcher = <T = any, R extends ResponseType = 'json'>(
           data?: any,
           opts: FetchOptions<R> = {},
         ) => {
@@ -44,5 +46,3 @@ export function createClient<R extends ResponseType = 'json'>(
 
   return p(defaultOptions.baseURL || '/')
 }
-
-export type { ApiClient } from './types'
