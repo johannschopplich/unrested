@@ -2,7 +2,7 @@
   "name": "unrested",
   "type": "module",
   "version": "1.0.3",
-  "packageManager": "pnpm@8.9.2",
+  "packageManager": "pnpm@8.10.2",
   "description": "Minimal, type-safe REST client using JS proxies",
   "author": "Johann Schopplich <pkg@johannschopplich.com>",
   "license": "MIT",
@@ -55,7 +55,7 @@
     "ufo": "^1.3.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.28",
+    "@antfu/eslint-config": "^1.0.0",
     "bumpp": "^9.2.0",
     "eslint": "^8.52.0",
     "h3": "^1.8.2",

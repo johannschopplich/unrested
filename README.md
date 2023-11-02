@@ -3,7 +3,7 @@
 > Minimal, type-safe REST client using JS proxies.
 
 > [!NOTE]
-> Thanks to everyone who has [upvoted this feature to be part of `unjs/ofetch`](https://github.com/unjs/ofetch/pull/69)! This library will be part of the upcoming [`api-party`](https://github.com/unjs/api-party) package.
+> Thanks to everyone who has [upvoted this feature to be part of `ofetch`](https://github.com/unjs/ofetch/pull/69)! We closed the PR in favor of a separate upcoming package, [`api-party`](https://github.com/unjs/api-party).
 
 ## Features
 
@@ -21,14 +21,14 @@
 Run the following command to add `unrested` to your project.
 
 ```bash
-# pnpm
-pnpm add -D unrested
-
 # npm
-npm install -D unrested
+npm install unrested
+
+# pnpm
+pnpm add unrested
 
 # yarn
-yarn add -D unrested
+yarn add unrested
 ```
 
 ## Usage
@@ -53,18 +53,28 @@ const api = createClient({
 
 ### Path Segment Chaining
 
-Chain single path segments or path ids by a dot. You can even type the response of your request!
+Chain single path segments or path IDs by a dot. You can type the response by passing a generic type to the method:
 
 ```ts
 // GET request to <baseURL>/users
-const users = await api.users.get<UserResponse>()
-
-// For GET request you can add search params
-// <baseURL>/users?search=john
-const users = await api.users.get<UserResponse>({ search: 'john' })
+const response = await api.users.get<UserResponse>()
 ```
 
-To include dynamic API path segments, you have two options:
+For `GET` request, the first parameter is used as query parameters:
+
+```ts
+// <baseURL>/users?search=john
+const response = await api.users.get<UserResponse>({ search: 'john' })
+```
+
+For HTTP request methods supporting a payload, the first parameter is used as payload:
+
+```ts
+// POST request to <baseURL>/users
+const response = await api.users.post({ name: 'foo' })
+```
+
+To include dynamic API path segments, you can choose between the chain syntax or the bracket syntax:
 
 ```ts
 // Typed GET request to <baseURL>/users/1
@@ -77,24 +87,15 @@ const user = await api.users[`${userId}`].get<UserResponse>()
 
 ### HTTP Request Methods
 
-Add the appropriate method to the end of your API call. The following methods are supported:
+The following methods are supported as the last method in the chain:
 
-- `get()`
-- `post()`
-- `put()`
-- `delete()`
-- `patch()`
+- `get(<query>, <fetchOptions>)`
+- `post(<payload>, <fetchOptions>)`
+- `put(<payload>, <fetchOptions>)`
+- `delete(<payload>, <fetchOptions>)`
+- `patch(<payload>, <fetchOptions>)`
 
-### Payload Requests
-
-For HTTP request methods supporting a payload, add it to the method call:
-
-```ts
-// POST request to <baseURL>/users
-const response = await api.users.post({ name: 'foo' })
-```
-
-### Default Options For `ofetch`
+### Default Options for `ofetch`
 
 ```ts
 import { createClient } from 'unrested'
@@ -112,7 +113,7 @@ const api = createClient({
 
 ### Override Default Options
 
-You can add/overwrite `ofetch` options on a method-level:
+Any fetch options on a method-level will override the default options:
 
 ```ts
 const response = await api.users.get({
