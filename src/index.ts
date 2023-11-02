@@ -5,7 +5,7 @@ import type { MappedResponseType, ResponseType } from './types'
 
 const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
 
-type ApiClientFetcher<Data = unknown> = <
+type RequestHandler<Data = unknown> = <
   T = any,
   R extends ResponseType = 'json',
 >(
@@ -17,11 +17,11 @@ export type ApiClient = {
   (...args: (string | number)[]): ApiClient
   [key: string]: ApiClient
 } & {
-  get: ApiClientFetcher<FetchOptions['query']>
-  post: ApiClientFetcher<FetchOptions['body']>
-  put: ApiClientFetcher<FetchOptions['body']>
-  delete: ApiClientFetcher<FetchOptions['body']>
-  patch: ApiClientFetcher<FetchOptions['body']>
+  get: RequestHandler<FetchOptions['query']>
+  post: RequestHandler<FetchOptions['body']>
+  put: RequestHandler<FetchOptions['body']>
+  delete: RequestHandler<FetchOptions['body']>
+  patch: RequestHandler<FetchOptions['body']>
 }
 
 export function createClient<R extends ResponseType = 'json'>(
@@ -38,7 +38,7 @@ export function createClient<R extends ResponseType = 'json'>(
         if (!['GET', ...payloadMethods].includes(method))
           return p(joinURL(url, key))
 
-        const handler: ApiClientFetcher = <T = any, R extends ResponseType = 'json'>(
+        const handler: RequestHandler = <T = any, R extends ResponseType = 'json'>(
           data?: any,
           opts: FetchOptions<R> = {},
         ) => {
