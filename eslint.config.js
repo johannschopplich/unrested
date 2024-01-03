@@ -1,5 +1,5 @@
 import antfu from '@antfu/eslint-config'
 
-export default antfu({
+export default await antfu({
   ignores: ['tsconfig.json'],
 })
