@@ -1,7 +1,6 @@
 import { ofetch } from 'ofetch'
 import { joinURL } from 'ufo'
-import type { FetchOptions } from 'ofetch'
-import type { MappedResponseType, ResponseType } from './types'
+import type { FetchOptions, MappedResponseType, ResponseType } from 'ofetch'
 
 const payloadMethods = ['POST', 'PUT', 'DELETE', 'PATCH']
 
