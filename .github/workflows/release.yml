@@ -28,6 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: pnpm install
+      - run: pnpm run build
 
       - name: Publish to npm
         run: npm publish --access public
