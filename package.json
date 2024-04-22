@@ -4,7 +4,7 @@
   "version": "1.0.3",
   "packageManager": "pnpm@8.15.5",
   "description": "Minimal, type-safe REST client using JS proxies",
-  "author": "Johann Schopplich <pkg@johannschopplich.com>",
+  "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "MIT",
   "homepage": "https://github.com/johannschopplich/unrested#readme",
   "repository": {
@@ -46,9 +46,9 @@
     "dev": "unbuild --stub",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "release": "bumpp --commit --push --tag",
+    "test:types": "tsc --noEmit",
     "test": "vitest",
-    "test:types": "tsc --noEmit"
+    "release": "bumpp"
   },
   "dependencies": {
     "ofetch": "^1.3.4",

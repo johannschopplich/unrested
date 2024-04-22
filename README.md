@@ -1,9 +1,11 @@
+> [!TIP]
+> **This is now part of [apiverse](https://github.com/johannschopplich/apiverse).**
+>
+> You can still use this package, but it will no longer be actively maintained. Please consider migrating to [apiverse](https://github.com/johannschopplich/apiverse). It is the spiritual successor of `unrested` and comes with many more features.
+
 # unrested
 
-> Minimal, type-safe REST client using JS proxies.
-
-> [!NOTE]
-> Thanks to everyone who has [upvoted this feature to be part of `ofetch`](https://github.com/unjs/ofetch/pull/69)! We closed the PR in favor of a separate upcoming package, [`api-party`](https://github.com/unjs/api-party).
+Minimal, type-safe REST client using JS proxies.
 
 ## Features
 
@@ -107,7 +109,7 @@ const api = createClient({
   },
   async onResponseError({ request, options, error }) {
     console.log('[fetch response error]', request, error)
-  },
+  }
 })
 ```
 
@@ -118,15 +120,10 @@ Any fetch options on a method-level will override the default options:
 ```ts
 const response = await api.users.get({
   headers: {
-    'Cache-Control': 'no-cache',
-  },
+    'Cache-Control': 'no-cache'
+  }
 })
 ```
-
-## Credits
-
-- [Ilya Komsa](https://github.com/v1vendi) for his [REST API generator](https://gist.github.com/v1vendi/75d5e5dad7a2d1ef3fcb48234e4528cb).
-- [David Wells](https://github.com/DavidWells) for his [GitHub API using proxies](https://gist.github.com/DavidWells/93535d7d6bec3a7219778ebcfa437df3).
 
 ## License
 
