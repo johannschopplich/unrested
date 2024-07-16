@@ -1,7 +1,7 @@
 > [!TIP]
-> **This is now part of [apiverse](https://github.com/johannschopplich/apiverse).**
+> **This is now part of [apiful](https://github.com/johannschopplich/apiful).**
 >
-> You can still use this package, but it will no longer be actively maintained. Please consider migrating to [apiverse](https://github.com/johannschopplich/apiverse). It is the spiritual successor of `unrested` and comes with many more features.
+> You can still use this package, but it will no longer be actively maintained. Please consider migrating to [apiful](https://github.com/johannschopplich/apiful). It is the spiritual successor of `unrested` and comes with many more features.
 
 # unrested
 
